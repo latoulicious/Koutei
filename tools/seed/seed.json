@@ -1,0 +1,1101 @@
+{
+	"_meta": {
+		"source": "https://endfieldtools.dev/localdb/optimized/",
+		"fetchedAt": "2026-06-20T16:46:44.343Z",
+		"count": 26
+	},
+	"operators": {
+		"snowshine": {
+			"charId": "chr_0014_aurora",
+			"name": "Snowshine",
+			"rarity": 5,
+			"profession": 2,
+			"factorySkills": [
+				{
+					"line": 1,
+					"roomType": 1,
+					"effectType": 1,
+					"effect": "manufacture_power_consume",
+					"icon": "facskill_spaceship_manufacture_power_consume",
+					"levels": [
+						{
+							"level": 1,
+							"value": 0.1
+						},
+						{
+							"level": 2,
+							"value": 0.14
+						}
+					]
+				},
+				{
+					"line": 2,
+					"roomType": 0,
+					"effectType": 0,
+					"effect": "physical_power",
+					"icon": "facskill_spaceship_physical_power",
+					"levels": [
+						{
+							"level": 1,
+							"value": 0.12
+						},
+						{
+							"level": 2,
+							"value": 0.16
+						}
+					]
+				}
+			]
+		},
+		"ardelia": {
+			"charId": "chr_0025_ardelia",
+			"name": "Ardelia",
+			"rarity": 6,
+			"profession": 4,
+			"factorySkills": [
+				{
+					"line": 1,
+					"roomType": 5,
+					"effectType": 4,
+					"effect": "guestroom_efficiency",
+					"icon": "facskill_spaceship_guestroom_efficiency",
+					"levels": [
+						{
+							"level": 1,
+							"value": 0.2
+						},
+						{
+							"level": 2,
+							"value": 0.3
+						}
+					]
+				},
+				{
+					"line": 2,
+					"roomType": 5,
+					"effectType": 1,
+					"effect": "guestroom_power_consume",
+					"icon": "facskill_spaceship_guestroom_power_consume",
+					"levels": [
+						{
+							"level": 1,
+							"value": 0.14
+						},
+						{
+							"level": 2,
+							"value": 0.18
+						}
+					]
+				}
+			]
+		},
+		"perlica": {
+			"charId": "chr_0004_pelica",
+			"name": "Perlica",
+			"rarity": 5,
+			"profession": 5,
+			"factorySkills": [
+				{
+					"line": 1,
+					"roomType": 0,
+					"effectType": 0,
+					"effect": "physical_power",
+					"icon": "facskill_spaceship_physical_power",
+					"levels": [
+						{
+							"level": 1,
+							"value": 0.08
+						},
+						{
+							"level": 2,
+							"value": 0.12
+						}
+					]
+				},
+				{
+					"line": 2,
+					"roomType": 1,
+					"effectType": 7,
+					"effect": "manufacture_efficiency",
+					"icon": "facskill_spaceship_manufacture_efficiency",
+					"levels": [
+						{
+							"level": 1,
+							"value": 0.2
+						},
+						{
+							"level": 2,
+							"value": 0.3
+						}
+					]
+				}
+			]
+		},
+		"da-pan": {
+			"charId": "chr_0018_dapan",
+			"name": "Da Pan",
+			"rarity": 5,
+			"profession": 8,
+			"factorySkills": [
+				{
+					"line": 1,
+					"roomType": 2,
+					"effectType": 3,
+					"effect": "plant_fungus",
+					"icon": "facskill_spaceship_plant_fungus",
+					"levels": [
+						{
+							"level": 1,
+							"value": 0.1
+						},
+						{
+							"level": 2,
+							"value": 0.2
+						}
+					]
+				},
+				{
+					"line": 2,
+					"roomType": 0,
+					"effectType": 0,
+					"effect": "physical_power",
+					"icon": "facskill_spaceship_physical_power",
+					"levels": [
+						{
+							"level": 1,
+							"value": 0.12
+						},
+						{
+							"level": 2,
+							"value": 0.16
+						}
+					]
+				}
+			]
+		},
+		"chen-qianyu": {
+			"charId": "chr_0005_chen",
+			"name": "Chen Qianyu",
+			"rarity": 5,
+			"profession": 0,
+			"factorySkills": [
+				{
+					"line": 1,
+					"roomType": 1,
+					"effectType": 7,
+					"effect": "manufacture_efficiency",
+					"icon": "facskill_spaceship_manufacture_efficiency",
+					"levels": [
+						{
+							"level": 1,
+							"value": 0.1
+						},
+						{
+							"level": 2,
+							"value": 0.2
+						}
+					]
+				},
+				{
+					"line": 2,
+					"roomType": 2,
+					"effectType": 3,
+					"effect": "plant_mineral",
+					"icon": "facskill_spaceship_plant_mineral",
+					"levels": [
+						{
+							"level": 1,
+							"value": 0.2
+						},
+						{
+							"level": 2,
+							"value": 0.3
+						}
+					]
+				}
+			]
+		},
+		"akekuri": {
+			"charId": "chr_0019_karin",
+			"name": "Akekuri",
+			"rarity": 4,
+			"profession": 7,
+			"factorySkills": [
+				{
+					"line": 1,
+					"roomType": 1,
+					"effectType": 1,
+					"effect": "manufacture_power_consume",
+					"icon": "facskill_spaceship_manufacture_power_consume",
+					"levels": [
+						{
+							"level": 1,
+							"value": 0.1
+						},
+						{
+							"level": 2,
+							"value": 0.14
+						}
+					]
+				},
+				{
+					"line": 2,
+					"roomType": 5,
+					"effectType": 1,
+					"effect": "guestroom_power_consume",
+					"icon": "facskill_spaceship_guestroom_power_consume",
+					"levels": [
+						{
+							"level": 1,
+							"value": 0.14
+						},
+						{
+							"level": 2,
+							"value": 0.18
+						}
+					]
+				}
+			]
+		},
+		"wulfgard": {
+			"charId": "chr_0006_wolfgd",
+			"name": "Wulfgard",
+			"rarity": 5,
+			"profession": 5,
+			"factorySkills": [
+				{
+					"line": 1,
+					"roomType": 1,
+					"effectType": 7,
+					"effect": "manufacture_efficiency",
+					"icon": "facskill_spaceship_manufacture_efficiency",
+					"levels": [
+						{
+							"level": 1,
+							"value": 0.1
+						},
+						{
+							"level": 2,
+							"value": 0.2
+						}
+					]
+				},
+				{
+					"line": 2,
+					"roomType": 2,
+					"effectType": 3,
+					"effect": "plant_mineral",
+					"icon": "facskill_spaceship_plant_mineral",
+					"levels": [
+						{
+							"level": 1,
+							"value": 0.2
+						},
+						{
+							"level": 2,
+							"value": 0.3
+						}
+					]
+				}
+			]
+		},
+		"laevatain": {
+			"charId": "chr_0016_laevat",
+			"name": "Laevatain",
+			"rarity": 6,
+			"profession": 8,
+			"factorySkills": [
+				{
+					"line": 1,
+					"roomType": 1,
+					"effectType": 7,
+					"effect": "manufacture_efficiency",
+					"icon": "facskill_spaceship_manufacture_efficiency",
+					"levels": [
+						{
+							"level": 1,
+							"value": 0.2
+						},
+						{
+							"level": 2,
+							"value": 0.3
+						}
+					]
+				},
+				{
+					"line": 2,
+					"roomType": 1,
+					"effectType": 1,
+					"effect": "manufacture_power_consume",
+					"icon": "facskill_spaceship_manufacture_power_consume",
+					"levels": [
+						{
+							"level": 1,
+							"value": 0.14
+						},
+						{
+							"level": 2,
+							"value": 0.18
+						}
+					]
+				}
+			]
+		},
+		"arclight": {
+			"charId": "chr_0007_ikut",
+			"name": "Arclight",
+			"rarity": 5,
+			"profession": 7,
+			"factorySkills": [
+				{
+					"line": 1,
+					"roomType": 1,
+					"effectType": 7,
+					"effect": "manufacture_efficiency",
+					"icon": "facskill_spaceship_manufacture_efficiency",
+					"levels": [
+						{
+							"level": 1,
+							"value": 0.1
+						},
+						{
+							"level": 2,
+							"value": 0.2
+						}
+					]
+				},
+				{
+					"line": 2,
+					"roomType": 5,
+					"effectType": 6,
+					"effect": "guestroom_clue",
+					"icon": "facskill_spaceship_guestroom_clue",
+					"levels": [
+						{
+							"level": 1,
+							"value": 6
+						},
+						{
+							"level": 2,
+							"value": 6
+						}
+					]
+				}
+			]
+		},
+		"avywenna": {
+			"charId": "chr_0012_avywen",
+			"name": "Avywenna",
+			"rarity": 5,
+			"profession": 8,
+			"factorySkills": [
+				{
+					"line": 1,
+					"roomType": 0,
+					"effectType": 0,
+					"effect": "physical_power",
+					"icon": "facskill_spaceship_physical_power",
+					"levels": [
+						{
+							"level": 1,
+							"value": 0.08
+						},
+						{
+							"level": 2,
+							"value": 0.12
+						}
+					]
+				},
+				{
+					"line": 2,
+					"roomType": 5,
+					"effectType": 6,
+					"effect": "guestroom_clue",
+					"icon": "facskill_spaceship_guestroom_clue",
+					"levels": [
+						{
+							"level": 1,
+							"value": 2
+						},
+						{
+							"level": 2,
+							"value": 2
+						}
+					]
+				}
+			]
+		},
+		"gilberta": {
+			"charId": "chr_0013_aglina",
+			"name": "Gilberta",
+			"rarity": 6,
+			"profession": 4,
+			"factorySkills": [
+				{
+					"line": 1,
+					"roomType": 1,
+					"effectType": 1,
+					"effect": "manufacture_power_consume",
+					"icon": "facskill_spaceship_manufacture_power_consume",
+					"levels": [
+						{
+							"level": 1,
+							"value": 0.14
+						},
+						{
+							"level": 2,
+							"value": 0.18
+						}
+					]
+				},
+				{
+					"line": 2,
+					"roomType": 1,
+					"effectType": 7,
+					"effect": "manufacture_efficiency",
+					"icon": "facskill_spaceship_manufacture_efficiency",
+					"levels": [
+						{
+							"level": 1,
+							"value": 0.2
+						},
+						{
+							"level": 2,
+							"value": 0.3
+						}
+					]
+				}
+			]
+		},
+		"lifeng": {
+			"charId": "chr_0015_lifeng",
+			"name": "Lifeng",
+			"rarity": 6,
+			"profession": 0,
+			"factorySkills": [
+				{
+					"line": 1,
+					"roomType": 0,
+					"effectType": 0,
+					"effect": "physical_power",
+					"icon": "facskill_spaceship_physical_power",
+					"levels": [
+						{
+							"level": 1,
+							"value": 0.12
+						},
+						{
+							"level": 2,
+							"value": 0.16
+						}
+					]
+				},
+				{
+					"line": 2,
+					"roomType": 5,
+					"effectType": 6,
+					"effect": "guestroom_clue",
+					"icon": "facskill_spaceship_guestroom_clue",
+					"levels": [
+						{
+							"level": 1,
+							"value": 3
+						},
+						{
+							"level": 2,
+							"value": 3
+						}
+					]
+				}
+			]
+		},
+		"alesh": {
+			"charId": "chr_0024_deepfin",
+			"name": "Alesh",
+			"rarity": 5,
+			"profession": 7,
+			"factorySkills": [
+				{
+					"line": 1,
+					"roomType": 0,
+					"effectType": 0,
+					"effect": "physical_power",
+					"icon": "facskill_spaceship_physical_power",
+					"levels": [
+						{
+							"level": 1,
+							"value": 0.08
+						},
+						{
+							"level": 2,
+							"value": 0.12
+						}
+					]
+				},
+				{
+					"line": 2,
+					"roomType": 5,
+					"effectType": 6,
+					"effect": "guestroom_clue",
+					"icon": "facskill_spaceship_guestroom_clue",
+					"levels": [
+						{
+							"level": 1,
+							"value": 1
+						},
+						{
+							"level": 2,
+							"value": 1
+						}
+					]
+				}
+			]
+		},
+		"ember": {
+			"charId": "chr_0009_azrila",
+			"name": "Ember",
+			"rarity": 6,
+			"profession": 2,
+			"factorySkills": [
+				{
+					"line": 1,
+					"roomType": 1,
+					"effectType": 7,
+					"effect": "manufacture_efficiency",
+					"icon": "facskill_spaceship_manufacture_efficiency",
+					"levels": [
+						{
+							"level": 1,
+							"value": 0.2
+						},
+						{
+							"level": 2,
+							"value": 0.3
+						}
+					]
+				},
+				{
+					"line": 2,
+					"roomType": 5,
+					"effectType": 6,
+					"effect": "guestroom_clue",
+					"icon": "facskill_spaceship_guestroom_clue",
+					"levels": [
+						{
+							"level": 1,
+							"value": 4
+						},
+						{
+							"level": 2,
+							"value": 4
+						}
+					]
+				}
+			]
+		},
+		"mifu": {
+			"charId": "chr_0031_mifu",
+			"name": "Mifu",
+			"rarity": 6,
+			"profession": 0,
+			"factorySkills": [
+				{
+					"line": 1,
+					"roomType": 5,
+					"effectType": 6,
+					"effect": "guestroom_clue",
+					"icon": "facskill_spaceship_guestroom_clue",
+					"levels": [
+						{
+							"level": 1,
+							"value": 3
+						},
+						{
+							"level": 2,
+							"value": 3
+						}
+					]
+				},
+				{
+					"line": 2,
+					"roomType": 2,
+					"effectType": 3,
+					"effect": "plant_fungus",
+					"icon": "facskill_spaceship_plant_fungus",
+					"levels": [
+						{
+							"level": 1,
+							"value": 0.2
+						},
+						{
+							"level": 2,
+							"value": 0.3
+						}
+					]
+				}
+			]
+		},
+		"xaihi": {
+			"charId": "chr_0011_seraph",
+			"name": "Xaihi",
+			"rarity": 5,
+			"profession": 4,
+			"factorySkills": [
+				{
+					"line": 1,
+					"roomType": 1,
+					"effectType": 7,
+					"effect": "manufacture_efficiency",
+					"icon": "facskill_spaceship_manufacture_efficiency",
+					"levels": [
+						{
+							"level": 1,
+							"value": 0.1
+						},
+						{
+							"level": 2,
+							"value": 0.2
+						}
+					]
+				},
+				{
+					"line": 2,
+					"roomType": 5,
+					"effectType": 6,
+					"effect": "guestroom_clue",
+					"icon": "facskill_spaceship_guestroom_clue",
+					"levels": [
+						{
+							"level": 1,
+							"value": 5
+						},
+						{
+							"level": 2,
+							"value": 5
+						}
+					]
+				}
+			]
+		},
+		"estella": {
+			"charId": "chr_0021_whiten",
+			"name": "Estella",
+			"rarity": 4,
+			"profession": 0,
+			"factorySkills": [
+				{
+					"line": 1,
+					"roomType": 0,
+					"effectType": 0,
+					"effect": "physical_power",
+					"icon": "facskill_spaceship_physical_power",
+					"levels": [
+						{
+							"level": 1,
+							"value": 0.08
+						},
+						{
+							"level": 2,
+							"value": 0.12
+						}
+					]
+				},
+				{
+					"line": 2,
+					"roomType": 5,
+					"effectType": 4,
+					"effect": "guestroom_efficiency",
+					"icon": "facskill_spaceship_guestroom_efficiency",
+					"levels": [
+						{
+							"level": 1,
+							"value": 0.2
+						},
+						{
+							"level": 2,
+							"value": 0.3
+						}
+					]
+				}
+			]
+		},
+		"yvonne": {
+			"charId": "chr_0017_yvonne",
+			"name": "Yvonne",
+			"rarity": 6,
+			"profession": 8,
+			"factorySkills": [
+				{
+					"line": 1,
+					"roomType": 2,
+					"effectType": 3,
+					"effect": "plant_fungus",
+					"icon": "facskill_spaceship_plant_fungus",
+					"levels": [
+						{
+							"level": 1,
+							"value": 0.2
+						},
+						{
+							"level": 2,
+							"value": 0.3
+						}
+					]
+				},
+				{
+					"line": 2,
+					"roomType": 2,
+					"effectType": 1,
+					"effect": "plant_power_consume",
+					"icon": "facskill_spaceship_plant_power_consume",
+					"levels": [
+						{
+							"level": 1,
+							"value": 0.14
+						},
+						{
+							"level": 2,
+							"value": 0.18
+						}
+					]
+				}
+			]
+		},
+		"catcher": {
+			"charId": "chr_0020_meurs",
+			"name": "Catcher",
+			"rarity": 4,
+			"profession": 2,
+			"factorySkills": [
+				{
+					"line": 1,
+					"roomType": 0,
+					"effectType": 0,
+					"effect": "physical_power",
+					"icon": "facskill_spaceship_physical_power",
+					"levels": [
+						{
+							"level": 1,
+							"value": 0.08
+						},
+						{
+							"level": 2,
+							"value": 0.12
+						}
+					]
+				},
+				{
+					"line": 2,
+					"roomType": 2,
+					"effectType": 1,
+					"effect": "plant_power_consume",
+					"icon": "facskill_spaceship_plant_power_consume",
+					"levels": [
+						{
+							"level": 1,
+							"value": 0.14
+						},
+						{
+							"level": 2,
+							"value": 0.18
+						}
+					]
+				}
+			]
+		},
+		"fluorite": {
+			"charId": "chr_0022_bounda",
+			"name": "Fluorite",
+			"rarity": 4,
+			"profession": 5,
+			"factorySkills": [
+				{
+					"line": 1,
+					"roomType": 2,
+					"effectType": 3,
+					"effect": "plant_mineral",
+					"icon": "facskill_spaceship_plant_mineral",
+					"levels": [
+						{
+							"level": 1,
+							"value": 0.1
+						},
+						{
+							"level": 2,
+							"value": 0.2
+						}
+					]
+				},
+				{
+					"line": 2,
+					"roomType": 0,
+					"effectType": 0,
+					"effect": "physical_power",
+					"icon": "facskill_spaceship_physical_power",
+					"levels": [
+						{
+							"level": 1,
+							"value": 0.12
+						},
+						{
+							"level": 2,
+							"value": 0.16
+						}
+					]
+				}
+			]
+		},
+		"last-rite": {
+			"charId": "chr_0026_lastrite",
+			"name": "Last Rite",
+			"rarity": 6,
+			"profession": 8,
+			"factorySkills": [
+				{
+					"line": 1,
+					"roomType": 2,
+					"effectType": 3,
+					"effect": "plant_flower",
+					"icon": "facskill_spaceship_plant_flower",
+					"levels": [
+						{
+							"level": 1,
+							"value": 0.2
+						},
+						{
+							"level": 2,
+							"value": 0.3
+						}
+					]
+				},
+				{
+					"line": 2,
+					"roomType": 5,
+					"effectType": 6,
+					"effect": "guestroom_clue",
+					"icon": "facskill_spaceship_guestroom_clue",
+					"levels": [
+						{
+							"level": 1,
+							"value": 7
+						},
+						{
+							"level": 2,
+							"value": 7
+						}
+					]
+				}
+			]
+		},
+		"antal": {
+			"charId": "chr_0023_antal",
+			"name": "Antal",
+			"rarity": 4,
+			"profession": 4,
+			"factorySkills": [
+				{
+					"line": 1,
+					"roomType": 1,
+					"effectType": 7,
+					"effect": "manufacture_efficiency",
+					"icon": "facskill_spaceship_manufacture_efficiency",
+					"levels": [
+						{
+							"level": 1,
+							"value": 0.1
+						},
+						{
+							"level": 2,
+							"value": 0.2
+						}
+					]
+				},
+				{
+					"line": 2,
+					"roomType": 2,
+					"effectType": 1,
+					"effect": "plant_power_consume",
+					"icon": "facskill_spaceship_plant_power_consume",
+					"levels": [
+						{
+							"level": 1,
+							"value": 0.14
+						},
+						{
+							"level": 2,
+							"value": 0.18
+						}
+					]
+				}
+			]
+		},
+		"tangtang": {
+			"charId": "chr_0027_tangtang",
+			"name": "Tangtang",
+			"rarity": 6,
+			"profession": 5,
+			"factorySkills": [
+				{
+					"line": 1,
+					"roomType": 2,
+					"effectType": 1,
+					"effect": "plant_power_consume",
+					"icon": "facskill_spaceship_plant_power_consume",
+					"levels": [
+						{
+							"level": 1,
+							"value": 0.14
+						},
+						{
+							"level": 2,
+							"value": 0.18
+						}
+					]
+				},
+				{
+					"line": 2,
+					"roomType": 2,
+					"effectType": 3,
+					"effect": "plant_flower",
+					"icon": "facskill_spaceship_plant_flower",
+					"levels": [
+						{
+							"level": 1,
+							"value": 0.2
+						},
+						{
+							"level": 2,
+							"value": 0.3
+						}
+					]
+				}
+			]
+		},
+		"rossi": {
+			"charId": "chr_0028_wulfa",
+			"name": "Rossi",
+			"rarity": 6,
+			"profession": 0,
+			"factorySkills": [
+				{
+					"line": 1,
+					"roomType": 5,
+					"effectType": 1,
+					"effect": "guestroom_power_consume",
+					"icon": "facskill_spaceship_guestroom_power_consume",
+					"levels": [
+						{
+							"level": 1,
+							"value": 0.14
+						},
+						{
+							"level": 2,
+							"value": 0.18
+						}
+					]
+				},
+				{
+					"line": 2,
+					"roomType": 5,
+					"effectType": 4,
+					"effect": "guestroom_efficiency",
+					"icon": "facskill_spaceship_guestroom_efficiency",
+					"levels": [
+						{
+							"level": 1,
+							"value": 0.2
+						},
+						{
+							"level": 2,
+							"value": 0.3
+						}
+					]
+				}
+			]
+		},
+		"pogranichnik": {
+			"charId": "chr_0029_pograni",
+			"name": "Pogranichnik",
+			"rarity": 6,
+			"profession": 7,
+			"factorySkills": [
+				{
+					"line": 1,
+					"roomType": 1,
+					"effectType": 7,
+					"effect": "manufacture_efficiency",
+					"icon": "facskill_spaceship_manufacture_efficiency",
+					"levels": [
+						{
+							"level": 1,
+							"value": 0.2
+						},
+						{
+							"level": 2,
+							"value": 0.3
+						}
+					]
+				},
+				{
+					"line": 2,
+					"roomType": 1,
+					"effectType": 1,
+					"effect": "manufacture_power_consume",
+					"icon": "facskill_spaceship_manufacture_power_consume",
+					"levels": [
+						{
+							"level": 1,
+							"value": 0.14
+						},
+						{
+							"level": 2,
+							"value": 0.18
+						}
+					]
+				}
+			]
+		},
+		"zhuang-fangyi": {
+			"charId": "chr_0030_zhuangfy",
+			"name": "Zhuang Fangyi",
+			"rarity": 6,
+			"profession": 8,
+			"factorySkills": [
+				{
+					"line": 1,
+					"roomType": 1,
+					"effectType": 1,
+					"effect": "manufacture_power_consume",
+					"icon": "facskill_spaceship_manufacture_power_consume",
+					"levels": [
+						{
+							"level": 1,
+							"value": 0.14
+						},
+						{
+							"level": 2,
+							"value": 0.18
+						}
+					]
+				},
+				{
+					"line": 2,
+					"roomType": 1,
+					"effectType": 7,
+					"effect": "manufacture_efficiency",
+					"icon": "facskill_spaceship_manufacture_efficiency",
+					"levels": [
+						{
+							"level": 1,
+							"value": 0.2
+						},
+						{
+							"level": 2,
+							"value": 0.3
+						}
+					]
+				}
+			]
+		}
+	}
+}

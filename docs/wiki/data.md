@@ -9,23 +9,30 @@ Koutei has **no database**. There are three kinds of state, none of them a DB:
   [`decisions/0001-numeric-payload.md`](decisions/0001-numeric-payload.md)).
 - **Browser `localStorage`** — the user's roster and level breakpoints, so they
   enter them once. Lives in the client, never on the server.
-- **Static game-data seed** — operator base passives, station/recipe tables, drain
-  rates. Read-only, embedded in the binary.
+- **Static game-data seed** — operator factory-skill bonuses, scraped once into a
+  committed JSON. Read-only; **bundled by the SPA** (not the Go binary) — the client
+  resolves ids→numbers and posts the numeric payload, so the backend stays numeric
+  ([`decisions/0001-numeric-payload.md`](decisions/0001-numeric-payload.md)).
 
 ## Static seed
 
-Endfield has no public developer API, so game variables are sourced once into a
-clean JSON config:
+Game variables are sourced once into a committed JSON via a one-off scraper.
 
-- **Source** — community data sheets / open-source fan wikis (operator base
-  passives at level 40/60/80, station recipes, yields).
-- **Tooling** — a small TS/Node utility (e.g. `cheerio`) parses the sheets into
-  `roster_template.json` and station/recipe configs. One-off seeding, not a runtime
-  dependency.
-- **Storage** — the JSON is committed and embedded in the Go binary (`embed`); the
-  solver loads it at startup into the numeric tables the core runs on.
+- **Source** — `https://endfieldtools.dev/localdb/optimized/` (its public static
+  JSON: `characters/characters-list.json` + `characters/details/<charId>.json`). Not
+  HTML — `fetch` + JSON, no `cheerio`. The endpoint 403s a non-browser `User-Agent`,
+  so the scraper sends a browser one.
+- **Tooling** — `tools/seed/scrape.mjs` (zero-dependency Node ESM, global `fetch`).
+  A faithful extractor: it preserves each operator's factory skills
+  (`line`/`roomType`/`effectType`/`effect`/`icon` + per-level `value`) and does **not**
+  map them to domain numbers — the SPA collapses a skill to one `skill_bonus` per the
+  selected recipe/level.
+- **Output** — `tools/seed/seed.json`, committed, keyed by slug:
+  `{ _meta:{source,fetchedAt,count}, operators:{ <slug>:{ charId, name, rarity,
+  profession, factorySkills:[…] } } }`. The SPA bundles it (§ above).
+- **Scope** — operators-only. Stamina mechanics (drain/regen/max) and facility data
+  (slots/synergy/mood) are **not** in this source — game constants / a separate
+  source / user sliders; a facilities seed is a follow-up.
 
-> Seed is a build-time concern, not a request-time one. Re-run the scraper only
-> when the game patches the underlying numbers; record the source + date when you
-> do. Placeholder — fill the exact file layout and source URLs when the seeding
-> utility lands.
+> Build-time, not request-time. Re-run `node tools/seed/scrape.mjs` only when a game
+> patch changes the numbers; `_meta.fetchedAt` records when it was last pulled.
