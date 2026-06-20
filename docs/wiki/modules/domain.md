@@ -1,0 +1,41 @@
+# Module: domain
+
+`internal/domain` — the pure scheduling entities and rules. Numeric and
+string-agnostic: operators and stations are reduced to the numeric attributes
+the rules read, identified by slice index. No `net/http`, no JSON, no game-name
+strings — all naming/parsing stays in the (future) HTTP adapter. The game-model
+this implements is [`../domain.md`](../domain.md); this file is the code contract.
+
+## Types
+
+```go
+type Operator struct {
+	Stamina    float64 // current stamina; drains while assigned
+	DrainBase  float64 // Δ_base stamina lost per slice in a standard slot
+	SkillBonus float64 // additive output bonus for the active recipe
+}
+
+type Station struct {
+	Slots        int     // hard capacity: never exceeded
+	SynergyCombo float64 // additive bonus when the room's slots cooperate
+}
+```
+
+The caller (HTTP adapter) maps a game id → index; the engine never sees the id.
+
+## Rules (pure, total, side-effect-free)
+
+| Func | Formula | Notes |
+|---|---|---|
+| `DrainStamina(stamina, drainBase, moodBonus)` | `stamina − drainBase·(1 − moodBonus)` | `moodBonus` ∈ [0,1] = Mood Nexus drain reduction. May return < 0. |
+| `OutputModifier(stamina)` | `0` if `stamina ≤ 0`, else `1` | the zero-stamina penalty; gates pruning. |
+| `RoomEfficiency(skillBonuses, synergyCombo)` | `1.0 + Σ skillBonus + synergyCombo` | empty room = base `1.0`. |
+
+Each rule has a table test in `rules_test.go` that fails if the math drifts.
+Float comparison uses an `epsilon = 1e-9` helper (stdlib `testing` only — no
+testify dependency added in Phase 1).
+
+## Not modelled yet (Phase 2)
+
+- **`Level`** — no rule reads it; added when one does.
+- **Stamina recovery / rest** — drain is monotonic; rest is not yet a state.

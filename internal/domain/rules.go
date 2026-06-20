@@ -1,0 +1,29 @@
+package domain
+
+// The three scheduling rules as pure, total, side-effect-free functions.
+// Formulas and rationale: docs/wiki/modules/domain.md.
+
+// DrainStamina returns stamina after one slice in a standard slot. moodBonus is
+// the Mood Nexus drain reduction in [0,1].
+func DrainStamina(stamina, drainBase, moodBonus float64) float64 {
+	return stamina - drainBase*(1-moodBonus)
+}
+
+// OutputModifier is the zero-stamina penalty: 0 at or below zero stamina, else
+// 1. A production slot holding a zero-output operator is pruned by the solver.
+func OutputModifier(stamina float64) float64 {
+	if stamina <= 0 {
+		return 0
+	}
+	return 1
+}
+
+// RoomEfficiency is the multi-slot synergy evaluator over the operator bonuses
+// present in the room this slice.
+func RoomEfficiency(skillBonuses []float64, synergyCombo float64) float64 {
+	efficiency := 1.0
+	for _, bonus := range skillBonuses {
+		efficiency += bonus
+	}
+	return efficiency + synergyCombo
+}
