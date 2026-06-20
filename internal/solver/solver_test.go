@@ -68,9 +68,8 @@ func TestSolve_Efficiency(t *testing.T) {
 	}
 }
 
-// A mood operator staffing a mood station halves the worker's drain, so the worker
-// keeps producing a slice it would otherwise sit out. Without the aura its 10
-// stamina drains fully in slice 0 and it is pruned in slice 1.
+// A mood operator staffing a mood station halves the worker's drain, so it keeps
+// producing slice 1 instead of draining out in slice 0 and being pruned.
 func TestSolve_MoodAura(t *testing.T) {
 	ops := []domain.Operator{
 		{Stamina: 10, DrainBase: 10, SkillBonus: 0.5}, // worker
@@ -96,9 +95,8 @@ func workerInStation(slice Slice, station, op int) bool {
 	return false
 }
 
-// A drained operator rests, recovers, and rotates back in — alternating with a
-// second operator that covers the single slot meanwhile. Without recovery the
-// schedule would be {0} then idle forever.
+// A drained operator rests, recovers, and rotates back in while a second operator
+// covers the slot meanwhile. Without recovery the schedule would idle after {0}.
 func TestSolve_RestRecovery(t *testing.T) {
 	ops := []domain.Operator{
 		{Stamina: 10, StaminaMax: 10, DrainBase: 10, Regen: 5, SkillBonus: 0.5},

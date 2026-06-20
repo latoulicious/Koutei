@@ -7,23 +7,17 @@ import (
 	"github.com/latoulicious/koutei/internal/domain"
 )
 
-// maxNodes caps the branch-and-bound search for operational safety: the per-slice
-// assignment space is exponential in roster size, so an adversarial input could
-// otherwise hang the solver. The budget counts nodes visited — never wall-clock —
-// so the cap stays deterministic and reproducible.
-// ponytail: fixed node budget; swap for best-first or beam search if real rosters
-// routinely exhaust it.
+// maxNodes caps the search: the per-slice assignment space is exponential, so an
+// adversarial input could otherwise hang it. Counts nodes, not wall-clock, for determinism.
+// ponytail: fixed node budget; swap for best-first or beam search if rosters exhaust it.
 const maxNodes = 1 << 20
 
 // bnbEpsilon absorbs float noise in the bound, dominance, and incumbent compares.
 const bnbEpsilon = 1e-9
 
-// SolveBranchBound returns the cumulative-efficiency-maximizing schedule via
-// branch-and-bound, seeded by the greedy Solve as its initial incumbent (lower
-// bound). It is proven optimal when the search completes within maxNodes;
-// otherwise it returns the best schedule found, which is never worse than greedy.
-// Pure and deterministic like Solve: fixed candidate order, index tie-break, and a
-// node-count budget rather than a clock.
+// SolveBranchBound maximizes cumulative efficiency via branch-and-bound, seeded by
+// greedy Solve as the incumbent. Proven optimal within maxNodes, else best-found
+// (never worse than greedy). Deterministic and pure like Solve.
 func SolveBranchBound(ops []domain.Operator, stations []domain.Station, horizon int) Schedule {
 	stamina := make([]float64, len(ops))
 	for i, op := range ops {
@@ -48,14 +42,11 @@ func SolveBranchBound(ops []domain.Operator, stations []domain.Station, horizon 
 			}
 			return
 		}
-		// Bound: even the unconstrained best for every remaining slice cannot beat
-		// the incumbent — cut.
+		// Bound: best possible over the remaining slices can't beat the incumbent — cut.
 		if acc+float64(horizon-t)*maxSlice <= best.Total+bnbEpsilon {
 			return
 		}
-		// Dominance: a prior node at this depth with at-least-equal stamina
-		// everywhere and at-least-equal accumulated efficiency can do at least as
-		// well, so this branch adds nothing — cut.
+		// Dominance: a prior node here with >= stamina and >= acc does no worse — cut.
 		if dominated(frontier[t], stamina, acc) {
 			return
 		}
@@ -76,10 +67,8 @@ type frontierNode struct {
 	acc     float64
 }
 
-// dominated reports whether some recorded node at this depth has at-least-equal
-// accumulated efficiency and at-least-equal stamina in every slot. Such a node can
-// replicate any future this one could reach and do no worse — value-to-go is
-// monotone non-decreasing in stamina — so the current branch is redundant.
+// dominated reports whether a recorded node here has >= acc and >= stamina everywhere.
+// Sound because value-to-go is monotone in stamina, so such a node does no worse — prune.
 func dominated(frontier []frontierNode, stamina []float64, acc float64) bool {
 	for _, f := range frontier {
 		if f.acc+bnbEpsilon < acc {
@@ -99,19 +88,15 @@ func dominated(frontier []frontierNode, stamina []float64, acc float64) bool {
 	return false
 }
 
-// candidate is one fully-resolved assignment for a single slice: the placed slots
-// with their efficiency, plus the stamina vector that results from draining the
-// operators placed and resting the rest.
+// candidate is one slice's resolved assignment: the placed slots with their
+// efficiency, plus the stamina vector after draining the placed and resting the rest.
 type candidate struct {
 	slice   Slice
 	stamina []float64
 }
 
-// sliceCandidates enumerates every legal assignment for one slice — each station
-// staffed by any subset of the available operators up to its slot capacity,
-// including empty (rest the operator instead). Returned best-immediate-efficiency
-// first, which sharpens pruning; the stable sort over deterministic generation
-// order keeps ties — and the whole search — reproducible.
+// sliceCandidates enumerates every legal slice assignment (each station any subset
+// up to its slots, empty = rest), best-efficiency first; stable order keeps it deterministic.
 func sliceCandidates(ops []domain.Operator, stations []domain.Station, stamina []float64) []candidate {
 	avail := availableSorted(ops, stamina)
 
@@ -140,9 +125,8 @@ func sliceCandidates(ops []domain.Operator, stations []domain.Station, stamina [
 	return out
 }
 
-// availableSorted mirrors solveSlice's candidate set: positive-stamina operators,
-// highest SkillBonus first, index tie-break. Duplicated rather than shared so the
-// greedy path stays untouched by Phase 2.
+// availableSorted mirrors solveSlice's candidate set: positive stamina, highest
+// SkillBonus first, index tie-break. Duplicated to keep the greedy path untouched.
 func availableSorted(ops []domain.Operator, stamina []float64) []int {
 	avail := make([]int, 0, len(ops))
 	for i := range ops {
@@ -156,10 +140,8 @@ func availableSorted(ops []domain.Operator, stamina []float64) []int {
 	return avail
 }
 
-// finalizeCandidate drains every placed operator (reduced by the slice's mood aura)
-// and rests every other one, producing the stamina vector for the next slice.
-// Mirrors solveSlice's drain/rest step exactly, on a clone so the caller's vector is
-// untouched.
+// finalizeCandidate drains the placed operators (minus the slice's mood aura) and
+// rests the rest, returning the next stamina vector. Mirrors solveSlice, on a clone.
 func finalizeCandidate(ops []domain.Operator, stations []domain.Station, stamina []float64, picks []Assignment, eff float64) candidate {
 	next := slices.Clone(stamina)
 	assigned := make([]bool, len(ops))
@@ -183,12 +165,10 @@ func finalizeCandidate(ops []domain.Operator, stations []domain.Station, stamina
 	return candidate{slice: Slice{Assignments: picks, Efficiency: eff}, stamina: next}
 }
 
-// maxSliceEfficiency is an admissible upper bound on any single slice's efficiency:
-// every station staffed and the globally highest bonuses placed, ignoring stamina.
-// Stamina constraints only ever remove options, so the real per-slice max never
-// exceeds this — which is what keeps the branch-and-bound bound valid.
-// ponytail: assumes non-negative synergy/bonus (the domain reality); negative
-// bonuses are dropped so the estimate stays an over-, never under-, estimate.
+// maxSliceEfficiency is an admissible upper bound on one slice: every station staffed
+// with the globally highest bonuses, ignoring stamina. Stamina only removes options,
+// so the real max never exceeds this — which keeps the B&B bound valid.
+// ponytail: assumes non-negative synergy/bonus; negatives dropped to stay an over-estimate.
 func maxSliceEfficiency(ops []domain.Operator, stations []domain.Station) float64 {
 	totalSlots := 0
 	sum := 0.0
@@ -221,9 +201,8 @@ func bonusesOf(ops []domain.Operator, subset []int) []float64 {
 	return out
 }
 
-// subsetsUpTo returns every subset of pool with size 0..maxSize, each a fresh
-// slice, in a fixed order (empty first, then increasing). Size 0 represents
-// leaving the station empty and resting those operators.
+// subsetsUpTo returns every subset of pool sized 0..maxSize, each fresh, in fixed
+// order (empty first). Size 0 = leave the station empty, resting those operators.
 func subsetsUpTo(pool []int, maxSize int) [][]int {
 	var res [][]int
 	var rec func(start int, cur []int)

@@ -21,17 +21,15 @@ type Slice struct {
 	Efficiency  float64
 }
 
-// Schedule is the solver's full output: one Slice per horizon block plus the
-// cumulative efficiency. Honest by construction — an infeasible slice records
-// empty assignments and 0 efficiency, never a fabricated timeline.
+// Schedule is the solver's full output: one Slice per horizon block plus cumulative
+// efficiency. Honest by construction — infeasible slices record empty, never faked.
 type Schedule struct {
 	Slices []Slice
 	Total  float64
 }
 
-// Solve greedily assigns operators to station slots across horizon slices to
-// maximize cumulative efficiency. It never mutates ops: stamina is tracked in a
-// local copy, so the call is pure and repeatable.
+// Solve greedily assigns operators to slots across horizon slices to maximize
+// cumulative efficiency. Never mutates ops — stamina is a local copy, so it's pure.
 func Solve(ops []domain.Operator, stations []domain.Station, horizon int) Schedule {
 	stamina := make([]float64, len(ops))
 	for i, op := range ops {
@@ -51,8 +49,7 @@ func Solve(ops []domain.Operator, stations []domain.Station, horizon int) Schedu
 // mutated in place — it is the working copy owned by Solve.
 func solveSlice(ops []domain.Operator, stations []domain.Station, stamina []float64) Slice {
 	// Available = positive-stamina operators, best bonus first. Stable sort over
-	// index-ordered input breaks ties by index — the fixed tie-break that keeps
-	// the search deterministic.
+	// index-ordered input breaks ties by index, keeping the search deterministic.
 	avail := make([]int, 0, len(ops))
 	for i := range ops {
 		if domain.OutputModifier(stamina[i]) > 0 {
@@ -88,9 +85,8 @@ func solveSlice(ops []domain.Operator, stations []domain.Station, stamina []floa
 			}
 		}
 	}
-	// Aura is known only once every station is staffed, so drain and rest run after
-	// the assign loop: assigned operators drain (reduced by the mood aura), the rest
-	// recover — the rotation that lets a drained operator return a later slice.
+	// Aura is known only once every station is staffed, so drain/rest run after the
+	// assign loop: assigned operators drain (minus the mood aura), the rest recover.
 	mood := domain.MoodAura(moodBonuses)
 	for i := range ops {
 		if assigned[i] {

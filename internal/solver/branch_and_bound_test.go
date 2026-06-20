@@ -10,9 +10,8 @@ import (
 
 func almostEqual(a, b float64) bool { return math.Abs(a-b) <= bnbEpsilon }
 
-// Greedy burns both high-bonus operators in slice 0, leaving only the weak
-// operator for slice 1. Branch-and-bound spreads them — one strong operator per
-// slice, the weak one filling the second slot each time — for a higher total.
+// Greedy burns both high-bonus operators in slice 0, leaving only the weak one for
+// slice 1. B&B spreads them — one strong per slice, weak filling the second — for more.
 func TestSolveBranchBound_BeatsGreedy(t *testing.T) {
 	ops := []domain.Operator{
 		{Stamina: 10, StaminaMax: 10, DrainBase: 10, SkillBonus: 0.9}, // one-shot
