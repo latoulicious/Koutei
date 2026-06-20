@@ -11,7 +11,9 @@ this implements is [`../domain.md`](../domain.md); this file is the code contrac
 ```go
 type Operator struct {
 	Stamina    float64 // current stamina; drains while assigned
+	StaminaMax float64 // ceiling for rest recovery
 	DrainBase  float64 // Δ_base stamina lost per slice in a standard slot
+	Regen      float64 // stamina recovered per slice while resting
 	SkillBonus float64 // additive output bonus for the active recipe
 }
 
@@ -30,6 +32,7 @@ The caller (HTTP adapter) maps a game id → index; the engine never sees the id
 | `DrainStamina(stamina, drainBase, moodBonus)` | `stamina − drainBase·(1 − moodBonus)` | `moodBonus` ∈ [0,1] = Mood Nexus drain reduction. May return < 0. |
 | `OutputModifier(stamina)` | `0` if `stamina ≤ 0`, else `1` | the zero-stamina penalty; gates pruning. |
 | `RoomEfficiency(skillBonuses, synergyCombo)` | `1.0 + Σ skillBonus + synergyCombo` | empty room = base `1.0`. |
+| `RecoverStamina(stamina, regen, max)` | `min(stamina + regen, max)` | rest path; never lowers stamina, so a zero `max` is a no-op. |
 
 Each rule has a table test in `rules_test.go` that fails if the math drifts.
 Float comparison uses an `epsilon = 1e-9` helper (stdlib `testing` only — no
@@ -38,4 +41,3 @@ testify dependency added in Phase 1).
 ## Not modelled yet (Phase 2)
 
 - **`Level`** — no rule reads it; added when one does.
-- **Stamina recovery / rest** — drain is monotonic; rest is not yet a state.

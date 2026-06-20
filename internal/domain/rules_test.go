@@ -82,3 +82,27 @@ func TestRoomEfficiency(t *testing.T) {
 		})
 	}
 }
+
+func TestRecoverStamina(t *testing.T) {
+	tests := []struct {
+		name    string
+		stamina float64
+		regen   float64
+		max     float64
+		want    float64
+	}{
+		{"recover below cap", 5, 3, 10, 8},
+		{"clamp at cap", 8, 5, 10, 10},
+		{"already at cap", 10, 5, 10, 10},
+		{"zero regen is no-op", 5, 0, 10, 5},
+		{"never lowers below current", 50, 0, 0, 50},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := RecoverStamina(tt.stamina, tt.regen, tt.max)
+			if !almostEqual(got, tt.want) {
+				t.Errorf("RecoverStamina(%v,%v,%v) = %v, want %v", tt.stamina, tt.regen, tt.max, got, tt.want)
+			}
+		})
+	}
+}

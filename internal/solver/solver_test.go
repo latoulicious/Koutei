@@ -67,3 +67,25 @@ func TestSolve_Efficiency(t *testing.T) {
 		t.Errorf("Total = %v, want %v", got.Total, want)
 	}
 }
+
+// A drained operator rests, recovers, and rotates back in — alternating with a
+// second operator that covers the single slot meanwhile. Without recovery the
+// schedule would be {0} then idle forever.
+func TestSolve_RestRecovery(t *testing.T) {
+	ops := []domain.Operator{
+		{Stamina: 10, StaminaMax: 10, DrainBase: 10, Regen: 5, SkillBonus: 0.5},
+		{Stamina: 10, StaminaMax: 10, DrainBase: 10, Regen: 5, SkillBonus: 0.3},
+	}
+	stations := []domain.Station{{Slots: 1}}
+
+	got := Solve(ops, stations, 4)
+	want := [][]int{{0}, {1}, {0}, {1}}
+	for i, slice := range got.Slices {
+		if len(slice.Assignments) != 1 {
+			t.Fatalf("slice %d: assignments = %d, want 1", i, len(slice.Assignments))
+		}
+		if op := slice.Assignments[0].Operators; !slices.Equal(op, want[i]) {
+			t.Errorf("slice %d: operators = %v, want %v", i, op, want[i])
+		}
+	}
+}

@@ -31,7 +31,9 @@ Per slice, in order:
 2. **Fill** stations in index order, up to `Slots` each, best bonus first (slot
    capacity is hard).
 3. **Score** the room via `RoomEfficiency`; accumulate into `Slice.Efficiency`.
-4. **Drain** only the operators placed (`moodBonus = 0` this phase).
+4. **Drain** the operators placed (`moodBonus = 0` this phase); **rest** the rest
+   — every unassigned operator recovers via `RecoverStamina`, so a drained
+   operator can rotate back into production a later slice.
 5. Zero-stamina operators are excluded in step 1 → never enter a production slot
    (the prune invariant). No available operators → empty slice, `0` efficiency:
    honest infeasibility, never a fabricated timeline.

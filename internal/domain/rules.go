@@ -27,3 +27,16 @@ func RoomEfficiency(skillBonuses []float64, synergyCombo float64) float64 {
 	}
 	return efficiency + synergyCombo
 }
+
+// RecoverStamina returns stamina after one slice of rest, capped at max. Rest
+// never lowers stamina, so an unset (zero) max is a no-op rather than a drain.
+func RecoverStamina(stamina, regen, max float64) float64 {
+	s := stamina + regen
+	if s > max {
+		s = max
+	}
+	if s < stamina {
+		return stamina
+	}
+	return s
+}
