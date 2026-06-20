@@ -65,7 +65,8 @@ func solveSlice(ops []domain.Operator, stations []domain.Station, stamina []floa
 
 	slice := Slice{Assignments: make([]Assignment, 0, len(stations))}
 	assigned := make([]bool, len(ops))
-	next := 0 // cursor into avail
+	moodBonuses := make([]float64, 0, len(ops)) // mood-station occupants' auras
+	next := 0                                   // cursor into avail
 	for s, station := range stations {
 		picked := make([]int, 0, station.Slots)
 		bonuses := make([]float64, 0, station.Slots)
@@ -82,14 +83,19 @@ func solveSlice(ops []domain.Operator, stations []domain.Station, stamina []floa
 		slice.Efficiency += domain.RoomEfficiency(bonuses, station.SynergyCombo)
 		for _, op := range picked {
 			assigned[op] = true
-			// ponytail: moodBonus fixed at 0 — cross-station Mood Nexus aura is Phase 2.
-			stamina[op] = domain.DrainStamina(stamina[op], ops[op].DrainBase, 0)
+			if station.Mood {
+				moodBonuses = append(moodBonuses, ops[op].MoodBonus)
+			}
 		}
 	}
-	// Unassigned operators rest and recover — the rotation that lets a drained
-	// operator return to production a later slice.
+	// Aura is known only once every station is staffed, so drain and rest run after
+	// the assign loop: assigned operators drain (reduced by the mood aura), the rest
+	// recover — the rotation that lets a drained operator return a later slice.
+	mood := domain.MoodAura(moodBonuses)
 	for i := range ops {
-		if !assigned[i] {
+		if assigned[i] {
+			stamina[i] = domain.DrainStamina(stamina[i], ops[i].DrainBase, mood)
+		} else {
 			stamina[i] = domain.RecoverStamina(stamina[i], ops[i].Regen, ops[i].StaminaMax)
 		}
 	}

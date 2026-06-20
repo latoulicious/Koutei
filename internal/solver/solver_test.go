@@ -68,6 +68,34 @@ func TestSolve_Efficiency(t *testing.T) {
 	}
 }
 
+// A mood operator staffing a mood station halves the worker's drain, so the worker
+// keeps producing a slice it would otherwise sit out. Without the aura its 10
+// stamina drains fully in slice 0 and it is pruned in slice 1.
+func TestSolve_MoodAura(t *testing.T) {
+	ops := []domain.Operator{
+		{Stamina: 10, DrainBase: 10, SkillBonus: 0.5}, // worker
+		{Stamina: 100, MoodBonus: 0.5},                // mood provider
+	}
+	stations := []domain.Station{{Slots: 1}, {Slots: 1, Mood: true}}
+
+	got := Solve(ops, stations, 2)
+	for s := range 2 {
+		if !workerInStation(got.Slices[s], 0, 0) {
+			t.Errorf("slice %d: worker missing from station 0 (aura should keep it producing)", s)
+		}
+	}
+}
+
+// workerInStation reports whether op is placed in the given station in the slice.
+func workerInStation(slice Slice, station, op int) bool {
+	for _, a := range slice.Assignments {
+		if a.Station == station && slices.Contains(a.Operators, op) {
+			return true
+		}
+	}
+	return false
+}
+
 // A drained operator rests, recovers, and rotates back in — alternating with a
 // second operator that covers the single slot meanwhile. Without recovery the
 // schedule would be {0} then idle forever.

@@ -8,4 +8,5 @@ type Operator struct {
 	DrainBase  float64 // Δ_base stamina lost per slice in a standard slot
 	Regen      float64 // stamina recovered per slice while resting
 	SkillBonus float64 // additive output bonus for the active recipe
+	MoodBonus  float64 // drain-reduction aura emitted while staffing a mood station
 }

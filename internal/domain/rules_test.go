@@ -83,6 +83,27 @@ func TestRoomEfficiency(t *testing.T) {
 	}
 }
 
+func TestMoodAura(t *testing.T) {
+	tests := []struct {
+		name        string
+		moodBonuses []float64
+		want        float64
+	}{
+		{"no providers is no aura", nil, 0},
+		{"single provider", []float64{0.12}, 0.12},
+		{"providers sum", []float64{0.12, 0.2}, 0.32},
+		{"clamps at one", []float64{0.7, 0.8}, 1},
+		{"never negative", []float64{-0.5}, 0},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := MoodAura(tt.moodBonuses); !almostEqual(got, tt.want) {
+				t.Errorf("MoodAura(%v) = %v, want %v", tt.moodBonuses, got, tt.want)
+			}
+		})
+	}
+}
+
 func TestRecoverStamina(t *testing.T) {
 	tests := []struct {
 		name    string

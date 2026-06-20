@@ -77,6 +77,23 @@ func TestSolveBranchBound_NeverWorseThanGreedy(t *testing.T) {
 	}
 }
 
+// B&B exploits the mood aura too: it staffs the mood station and keeps the worker
+// producing both slices via the halved drain (finalizeCandidate's aura path).
+func TestSolveBranchBound_MoodAura(t *testing.T) {
+	ops := []domain.Operator{
+		{Stamina: 10, StaminaMax: 10, DrainBase: 10, SkillBonus: 0.5},
+		{Stamina: 100, StaminaMax: 100, MoodBonus: 0.5},
+	}
+	stations := []domain.Station{{Slots: 1}, {Slots: 1, Mood: true}}
+
+	got := SolveBranchBound(ops, stations, 2)
+	for s := range 2 {
+		if !workerInStation(got.Slices[s], 0, 0) {
+			t.Errorf("slice %d: worker missing from station 0 under aura", s)
+		}
+	}
+}
+
 // Same input twice yields an identical schedule, ties included.
 func TestSolveBranchBound_Deterministic(t *testing.T) {
 	ops := []domain.Operator{

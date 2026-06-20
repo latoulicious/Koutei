@@ -28,6 +28,24 @@ func RoomEfficiency(skillBonuses []float64, synergyCombo float64) float64 {
 	return efficiency + synergyCombo
 }
 
+// MoodAura is the slice-wide drain reduction from the operators staffing mood
+// stations this slice: the sum of their MoodBonus, clamped to [0,1]. At 1 the aura
+// negates drain entirely; the clamp keeps DrainStamina's moodBonus in range, so the
+// aura can never add stamina (moodBonus > 1) or deepen drain (moodBonus < 0).
+func MoodAura(moodBonuses []float64) float64 {
+	aura := 0.0
+	for _, b := range moodBonuses {
+		aura += b
+	}
+	if aura > 1 {
+		return 1
+	}
+	if aura < 0 {
+		return 0
+	}
+	return aura
+}
+
 // RecoverStamina returns stamina after one slice of rest, capped at max. Rest
 // never lowers stamina, so an unset (zero) max is a no-op rather than a drain.
 func RecoverStamina(stamina, regen, max float64) float64 {

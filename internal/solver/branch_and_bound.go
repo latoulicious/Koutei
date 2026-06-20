@@ -119,7 +119,7 @@ func sliceCandidates(ops []domain.Operator, stations []domain.Station, stamina [
 	var rec func(s int, pool []int, picks []Assignment, eff float64)
 	rec = func(s int, pool []int, picks []Assignment, eff float64) {
 		if s == len(stations) {
-			out = append(out, finalizeCandidate(ops, stamina, picks, eff))
+			out = append(out, finalizeCandidate(ops, stations, stamina, picks, eff))
 			return
 		}
 		for _, subset := range subsetsUpTo(pool, stations[s].Slots) {
@@ -156,21 +156,27 @@ func availableSorted(ops []domain.Operator, stamina []float64) []int {
 	return avail
 }
 
-// finalizeCandidate drains every placed operator and rests every other one,
-// producing the stamina vector for the next slice. Mirrors solveSlice's drain/rest
-// step exactly, on a clone so the caller's vector is untouched.
-func finalizeCandidate(ops []domain.Operator, stamina []float64, picks []Assignment, eff float64) candidate {
+// finalizeCandidate drains every placed operator (reduced by the slice's mood aura)
+// and rests every other one, producing the stamina vector for the next slice.
+// Mirrors solveSlice's drain/rest step exactly, on a clone so the caller's vector is
+// untouched.
+func finalizeCandidate(ops []domain.Operator, stations []domain.Station, stamina []float64, picks []Assignment, eff float64) candidate {
 	next := slices.Clone(stamina)
 	assigned := make([]bool, len(ops))
+	moodBonuses := make([]float64, 0, len(ops))
 	for _, a := range picks {
 		for _, op := range a.Operators {
 			assigned[op] = true
-			// ponytail: moodBonus fixed at 0 — cross-station Mood Nexus aura is a later Phase-2 item.
-			next[op] = domain.DrainStamina(next[op], ops[op].DrainBase, 0)
+			if stations[a.Station].Mood {
+				moodBonuses = append(moodBonuses, ops[op].MoodBonus)
+			}
 		}
 	}
+	mood := domain.MoodAura(moodBonuses)
 	for i := range ops {
-		if !assigned[i] {
+		if assigned[i] {
+			next[i] = domain.DrainStamina(next[i], ops[i].DrainBase, mood)
+		} else {
 			next[i] = domain.RecoverStamina(next[i], ops[i].Regen, ops[i].StaminaMax)
 		}
 	}

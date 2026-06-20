@@ -61,7 +61,18 @@ DFS over the horizon (depth = slice, branch = per-slice assignment), three prune
 
 Candidates per slice = every subset of the available operators per station up to
 its slots, empty included (rest is a choice). Drain/rest after placement mirrors
-`solveSlice` exactly; `moodBonus` is still `0` (aura is below).
+`solveSlice` exactly, the mood aura (below) included.
+
+## Mood Nexus aura
+
+A mood station (`Station.Mood`) activates its occupants' `Operator.MoodBonus`. Both
+solvers compute one slice-wide drain reduction — `domain.MoodAura` over the mood-
+station occupants, clamped `[0,1]` — and pass it as `DrainStamina`'s `moodBonus`.
+The aura is known only once every station is staffed, so drain runs *after* the
+assign loop in both `solveSlice` and `finalizeCandidate`. It touches stamina, not
+efficiency, so the B&B bound and dominance are unaffected (more stamina only ever
+widens options — the bound stays admissible). Sacrificing a production slot to staff
+the mood station is the strategic tradeoff the search now weighs.
 
 **Optimality ceiling.** The assignment space is exponential in roster size, so a
 deterministic `maxNodes` budget caps the search. Proven optimal when it completes
@@ -79,7 +90,5 @@ cap counts nodes, never wall-clock, so determinism holds.
 
 ## Deferred (Phase 2 — see [`../../PLAN.md`](../../PLAN.md) §5)
 
-- **Mood Nexus aura** — wire `moodBonus` from a staffed mood station into
-  `DrainStamina` (currently `0` in both solvers).
 - **`target_priority` / recipe matching** — solver maximizes generic efficiency for
   now; per-target scenarios run concurrently and merge later.

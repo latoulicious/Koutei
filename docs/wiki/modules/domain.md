@@ -15,11 +15,13 @@ type Operator struct {
 	DrainBase  float64 // Δ_base stamina lost per slice in a standard slot
 	Regen      float64 // stamina recovered per slice while resting
 	SkillBonus float64 // additive output bonus for the active recipe
+	MoodBonus  float64 // drain-reduction aura emitted while staffing a mood station
 }
 
 type Station struct {
 	Slots        int     // hard capacity: never exceeded
 	SynergyCombo float64 // additive bonus when the room's slots cooperate
+	Mood         bool    // mood station: staffing it activates occupants' MoodBonus aura
 }
 ```
 
@@ -33,6 +35,7 @@ The caller (HTTP adapter) maps a game id → index; the engine never sees the id
 | `OutputModifier(stamina)` | `0` if `stamina ≤ 0`, else `1` | the zero-stamina penalty; gates pruning. |
 | `RoomEfficiency(skillBonuses, synergyCombo)` | `1.0 + Σ skillBonus + synergyCombo` | empty room = base `1.0`. |
 | `RecoverStamina(stamina, regen, max)` | `min(stamina + regen, max)` | rest path; never lowers stamina, so a zero `max` is a no-op. |
+| `MoodAura(moodBonuses)` | `clamp(Σ moodBonus, 0, 1)` | slice-wide drain reduction from mood-station occupants; clamp keeps it a valid `DrainStamina` `moodBonus`. |
 
 Each rule has a table test in `rules_test.go` that fails if the math drifts.
 Float comparison uses an `epsilon = 1e-9` helper (stdlib `testing` only — no
