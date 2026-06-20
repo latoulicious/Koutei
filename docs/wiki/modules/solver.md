@@ -41,18 +41,45 @@ Per slice, in order:
 `Solve` never mutates its `ops` input — stamina is tracked in a local copy, so
 the call is pure and repeatable.
 
+## Phase 2 — branch-and-bound (`SolveBranchBound`)
+
+Greedy is myopic: it spends the best-bonus operators every slice, so it can burn a
+strong operator now that a later slice needed more. `SolveBranchBound` maximizes
+**cumulative** efficiency over the horizon instead. It is a new exported function —
+greedy `Solve` stays and is reused as the search seed; the call site picks which.
+
+DFS over the horizon (depth = slice, branch = per-slice assignment), three prunes:
+
+1. **Greedy incumbent** — `Solve` is the initial lower bound, so B&B never returns
+   worse than greedy and starts pruning against a real schedule immediately.
+2. **Bound** — `acc + remainingSlices · maxSliceEfficiency ≤ incumbent` → cut.
+   `maxSliceEfficiency` staffs every station with the globally highest bonuses,
+   ignoring stamina; admissible because stamina only ever removes options.
+3. **Dominance** — at one depth, a node with ≥ accumulated efficiency *and* ≥
+   stamina in every slot dominates this one (value-to-go is monotone in stamina) →
+   cut.
+
+Candidates per slice = every subset of the available operators per station up to
+its slots, empty included (rest is a choice). Drain/rest after placement mirrors
+`solveSlice` exactly; `moodBonus` is still `0` (aura is below).
+
+**Optimality ceiling.** The assignment space is exponential in roster size, so a
+deterministic `maxNodes` budget caps the search. Proven optimal when it completes
+under budget; otherwise it returns the best schedule found — always ≥ greedy. The
+cap counts nodes, never wall-clock, so determinism holds.
+
 ## Contract
 
-- **Deterministic** — same input → same `Schedule`; no wall-clock, no RNG, ties
-  broken by index.
+- **Deterministic** — same input → same `Schedule` for both solvers; no wall-clock,
+  no RNG, ties broken by index, node-count (not time) budget.
 - **Pure** — no I/O, no globals, no game strings. Unit-testable on raw inputs
-  (`solver_test.go`: slot capacity, zero-stamina prune, determinism, efficiency).
+  (`solver_test.go`: slot capacity, zero-stamina prune, determinism, efficiency;
+  `branch_and_bound_test.go`: beats-greedy, never-worse, determinism, capacity,
+  zero-stamina prune).
 
 ## Deferred (Phase 2 — see [`../../PLAN.md`](../../PLAN.md) §5)
 
-- **Branch-and-bound / DP** with dominated-branch pruning replaces the per-slice
-  greedy choice. Output types and domain rules stay.
 - **Mood Nexus aura** — wire `moodBonus` from a staffed mood station into
-  `DrainStamina` (currently `0`).
-- **`target_priority` / recipe matching** — greedy maximizes generic efficiency
-  for now; per-target scenarios run concurrently and merge later.
+  `DrainStamina` (currently `0` in both solvers).
+- **`target_priority` / recipe matching** — solver maximizes generic efficiency for
+  now; per-target scenarios run concurrently and merge later.
