@@ -3,7 +3,10 @@
 Koutei has **no database**. There are three kinds of state, none of them a DB:
 
 - **Request payload** — the full problem (roster + facilities + target) is sent per
-  call and discarded after the response. The engine is stateless.
+  call and discarded after the response. The engine is stateless. As of Phase 3 the
+  payload carries **raw numeric** operator/station values, not game-string ids —
+  string→number resolution waits on the seed ([`modules/api.md`](modules/api.md),
+  [`decisions/0001-numeric-payload.md`](decisions/0001-numeric-payload.md)).
 - **Browser `localStorage`** — the user's roster and level breakpoints, so they
   enter them once. Lives in the client, never on the server.
 - **Static game-data seed** — operator base passives, station/recipe tables, drain

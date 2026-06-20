@@ -32,7 +32,10 @@ nothing about HTTP or game strings — it runs on raw numeric matrices.
   returned timeline (visual language: [`PLAN.md`](../../PLAN.md) §4).
 - **api / HTTP adapter** (Go) — the only I/O-aware layer. Parses the request
   payload into the domain model, calls the solver, serializes the timeline back.
-  Single route: `POST /api/v1/optimize`. Owns no state between requests.
+  Single route: `POST /api/v1/optimize` (plus `/health`). Owns no state between
+  requests. The Phase-3 payload is **numeric** (raw domain numbers, not game-string
+  ids) until the seed lands — contract: [`modules/api.md`](modules/api.md), rationale:
+  [`decisions/0001-numeric-payload.md`](decisions/0001-numeric-payload.md).
 - **solver core** (Go) — pure compute. Models the problem as a multi-resource
   constrained assignment over `T` time slices and searches for the optimal
   schedule (branch-and-bound with stamina/zero-output pruning). Contract:
