@@ -1,0 +1,18 @@
+@import "tailwindcss";
+
+/* Control Room Minimal palette (PLAN §4) — fixed 6-color industrial set. */
+@theme {
+  --color-bg: #121416;
+  --color-surface: #1a1d20;
+  --color-border: #2b3036;
+  --color-accent: #f2a900;
+  --color-ok: #00b388;
+  --color-muted: #8a94a0;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --radius: 2px;
+}
+
+body {
+  background: var(--color-bg);
+  color: #e7ebef;
+}
