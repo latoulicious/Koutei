@@ -60,7 +60,9 @@ web/
 ## Seed → numeric mapping (`payload.ts`)
 
 - `skill_bonus` = selected factory-skill line's value at the chosen level index
-  (clamped); `0` if the line/operator is absent.
+  (clamped); `0` if the line/operator is absent. A new operator defaults its skill
+  line to `manufacture_efficiency` (`primarySkillLine`) — the one unambiguous
+  effect→`skill_bonus` mapping — falling back to the first line; user overrides.
 - `mood_bonus` = the optional mood-line value, else `0`. **No automatic
   roomType/effectType → domain classification** — that semantic table is not in the
   wiki and is not invented; the user picks which skill is the mood aura.

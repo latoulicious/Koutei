@@ -32,6 +32,14 @@ export function skillValue(op: SeedOperator, line: number, levelIdx: number): nu
   return skill.levels[i].value;
 }
 
+// primarySkillLine picks an operator's default skill line: its production skill
+// (manufacture_efficiency) if present, else the first line, else 1.
+export function primarySkillLine(op: SeedOperator | undefined): number {
+  const skills = op?.factorySkills ?? [];
+  const mfg = skills.find((s) => s.effect === "manufacture_efficiency");
+  return (mfg ?? skills[0])?.line ?? 1;
+}
+
 // buildPayload maps roster/station state to the backend's numeric contract in
 // array order — response assignment indices reference these same positions.
 export function buildPayload(

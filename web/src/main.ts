@@ -1,7 +1,7 @@
 import "./style.css";
 import { load, save, DEFAULTS, type AppState } from "./state";
 import { operators } from "./seed";
-import { buildPayload } from "./payload";
+import { buildPayload, primarySkillLine } from "./payload";
 import { optimize } from "./api";
 import type { Ctx } from "./context";
 import { el } from "./dom";
@@ -32,7 +32,7 @@ const ctx: Ctx = {
     const op = operators[slug];
     state.roster.push({
       slug,
-      skillLine: op?.factorySkills[0]?.line ?? 1,
+      skillLine: primarySkillLine(op),
       level: 0,
       moodLine: null,
       ...DEFAULTS,

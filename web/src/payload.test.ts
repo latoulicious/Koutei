@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { buildPayload, skillValue } from "./payload";
+import { buildPayload, primarySkillLine, skillValue } from "./payload";
 import type { SeedOperator } from "./seed";
 import type { AppState } from "./state";
 
@@ -21,6 +21,21 @@ describe("skillValue", () => {
     expect(skillValue(op, 1, 1)).toBe(0.3);
     expect(skillValue(op, 1, 99)).toBe(0.3); // clamp high
     expect(skillValue(op, 9, 0)).toBe(0); // missing line
+  });
+});
+
+describe("primarySkillLine", () => {
+  it("prefers manufacture_efficiency, else first line, else 1", () => {
+    const mfgOp: SeedOperator = {
+      ...op,
+      factorySkills: [
+        { line: 3, roomType: 0, effectType: 0, effect: "guestroom_clue", icon: "", levels: [{ level: 1, value: 0.1 }] },
+        { line: 7, roomType: 1, effectType: 0, effect: "manufacture_efficiency", icon: "", levels: [{ level: 1, value: 0.2 }] },
+      ],
+    };
+    expect(primarySkillLine(mfgOp)).toBe(7); // manufacture line, not array-0
+    expect(primarySkillLine(op)).toBe(1); // no manufacture skill → first line
+    expect(primarySkillLine(undefined)).toBe(1); // unknown operator
   });
 });
 
