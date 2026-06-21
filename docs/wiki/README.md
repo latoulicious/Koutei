@@ -6,6 +6,12 @@ for Arknights: Endfield — a stateless Go constraint solver behind a TypeScript
 SPA. **Greenfield**: this wiki is design-intent ahead of the code; entries marked
 as placeholders are populated as the build lands.
 
+> **Status: ON HOLD (2026-06-21).** Engine + SPA work end-to-end on *placeholder*
+> stamina mechanics. Held pending a reliable source for the four real constants —
+> stamina base/max, drain (decay) rate, regen rate, and the mood→stamina decay-
+> reduction rate. Sources checked and ruled out below ([`data.md`](data.md)); these
+> live only in the encrypted game client. Resumes when that data is found.
+
 ## Structure
 
 | Path | Purpose |

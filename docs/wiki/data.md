@@ -36,3 +36,35 @@ Game variables are sourced once into a committed JSON via a one-off scraper.
 
 > Build-time, not request-time. Re-run `node tools/seed/scrape.mjs` only when a game
 > patch changes the numbers; `_meta.fetchedAt` records when it was last pulled.
+
+## Blocking data gap — stamina/mood constants (project ON HOLD, 2026-06-21)
+
+The optimizer needs four real numbers it currently fakes with placeholders
+(`web/src/state.ts` `DEFAULTS` `100/100/20/15`). The project is **on hold** until a
+reliable source is found:
+
+| Domain field | Meaning | Placeholder |
+|---|---|---|
+| `StaminaMax` | stamina base / max capacity | 100 |
+| `DrainBase` | stamina decay per slice in a standard slot | 20 |
+| `Regen` | stamina recovered per slice while resting | 15 |
+| `MoodBonus` | mood→stamina decay-reduction rate (aura) | user-picked skill value |
+
+In game terms this is the **Mood/Control-Nexus fatigue layer**, distinct from the
+manufacturing-recipe layer. Sources searched 2026-06-21 and **ruled out**:
+
+- **endfieldtools.dev localdb** (our seed source) — operators (combat + factory-skill
+  bonuses) and `factory-browse-data.json` (15 mfg buildings, 168 items/recipes) only;
+  no mood/drain/regen keys.
+- **daydreamer-json/ak-endfield-api-archive** — a CDN/launcher mirror of **raw
+  encrypted Unity VFS chunks** (`.blc`/`.chk`, hashed names); only the manifest is
+  decrypted. Constants need a full asset datamine (out of scope).
+- **awesome-arknights-endfield tools** (factoriolab fork, jei-web, yituliu, …) — all
+  model the manufacturing-recipe layer, not operator fatigue.
+- **Community guides** (e.g. endfieldhub Control Nexus) — qualitative + *relative*
+  percentages only (+12–16% regen auras, −14–18% mood-drop), no absolute base/rate.
+
+**Unblock path:** datamine the client assets (decrypt the VFS chunks → extract the
+building/mood config table) or a published gamedata dump that includes the fatigue
+constants. Until then, drain/regen/max stay editable placeholders and only *relative*
+behaviour (rotation order, who tires first) is trustworthy, not absolute timing.
