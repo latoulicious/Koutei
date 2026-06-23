@@ -26,3 +26,19 @@ Format per finding:
   Mood Nexus aura section (lines 66-75) and the code. Pre-existing drift, unrelated
   to Track A.
 - status: resolved (→ R-001)
+
+## F-002 stamina/mood mechanics are placeholder constants — no known data source
+- date: 2026-06-23
+- source: manual (project blocker — parked the project 2026-06-21)
+- severity: high — solver runs on guessed fatigue numbers; only relative behaviour
+  (rotation order) is trustworthy, not absolute timing
+- location: web/src/state.ts:37 (`DEFAULTS = 100/100/20/15`)
+- problem: the optimizer needs four real constants — stamina base/max, drain
+  (decay) rate, regen rate, and the mood→stamina decay-reduction rate — that the SPA
+  fakes with placeholders. Searched 2026-06-21 and found nothing: endfieldtools.dev
+  localdb (operators + mfg recipes only), daydreamer-json/ak-endfield-api-archive
+  (raw encrypted Unity VFS chunks), awesome-arknights-endfield planners (recipe
+  layer), guides (relative % only). Conclusion at the time: datamine-only, blocked.
+  Root cause of the dead-end: the resource is **Physical Strength (PS / 体力)**, not
+  "mood/stamina" — every search used the wrong term (see R-002).
+- status: resolved (→ R-002)
