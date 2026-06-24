@@ -55,9 +55,17 @@ dead-ended (see [`resolutions.md`](resolutions.md) R-002). Found and wired from
 Wired in `web/src/state.ts` `DEFAULTS` (per-operator editable) and `web/src/payload.ts`
 `moodSkillLine` (new operators default their mood line to the `physical_power` aura).
 
-**Open caveat:** the rate's real-time unit (per-min vs per-tick) is not yet pinned —
-the desc text is i18n-id only. Cosmetic: affects the SPA hour labels, not solver
-correctness. Pin via `TableCfg/I18nTextTable_*.json` desc id `-2816445264583474700`.
+**Time unit — adopted per-minute (inferred, 2026-06-24).** The desc id
+`-2816445264583474700` reads *"…grant all operators' Mood Regen +12%"* — a percentage,
+**not** a unit (so the R-002 item-4 desc route was a dead end). `SpaceshipConst` has no
+explicit unit field, but sibling durations there are in **seconds**
+(`spaceshipGuestRoomInformationExchangeDuration = 86400` = 1 day). Of the candidates,
+per-minute is the only plausible fit: drain 10000÷12 ≈ 13.9 h, regen 10000÷20 ≈ 8.3 h
+(a multi-hour shift); per-second drains in ~14 min, per-hour leaves fatigue inert over
+24 h. `DEFAULTS` therefore store the rates **per 1-hour slice = source per-minute ×60**
+(`drainBase 720`, `regen 1200`); solver correctness is unit-independent (rates scale
+together), only absolute timing depended on this. Inference is **unconfirmed** — an
+authoritative settle-interval would live in game logic, not this table dump.
 
 Source raw-URL pattern:
 `https://raw.githubusercontent.com/Niesc-F/EndfieldTableCfg/main/TableCfg/<Table>.json`

@@ -155,8 +155,8 @@ Swiss Minimalism + industrial grid systems. Lightweight, snappy, backend-first.
 > **ACTIVE (resumed 2026-06-24).** Phases 1–4 ship end-to-end. The four constants are
 > now real **PS (Physical Strength / 体力)** values wired from `Niesc-F/EndfieldTableCfg`
 > `SpaceshipConst.json` (`docs/wiki/resolutions.md` R-002, `docs/wiki/data.md` §
-> "Stamina/PS constants"). Open caveat: the rate's real-time unit (per-min vs per-tick)
-> is not yet pinned — cosmetic, affects SPA hour labels only, not solver correctness.
+> "Stamina/PS constants"). Rate unit adopted as per-minute (inferred 2026-06-24,
+> unconfirmed) and stored per 1-hour slice (×60) — solver is unit-independent.
 
 ### Implementation recommendation
 

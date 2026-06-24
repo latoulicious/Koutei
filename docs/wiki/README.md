@@ -10,8 +10,8 @@ as placeholders are populated as the build lands.
 > constants were found and wired (`Niesc-F/EndfieldTableCfg` `SpaceshipConst.json`) —
 > see [`resolutions.md`](resolutions.md) R-002. Engine + SPA now run on sourced
 > stamina mechanics; new operators default their mood line to the `physical_power`
-> aura. Open caveat: the rate's real-time unit (per-min vs per-tick) is not yet
-> pinned — cosmetic, affects SPA hour labels only, not solver correctness.
+> aura. Rate unit adopted as **per-minute** (inferred 2026-06-24, unconfirmed) and
+> stored per 1-hour slice (×60); see [`data.md`](data.md) § "Stamina/PS constants".
 
 ## Structure
 

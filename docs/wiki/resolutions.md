@@ -66,10 +66,13 @@ Format per resolution:
    operators default `moodLine` to their `physical_power` line; test added.
 3. ✅ Flipped ON HOLD → active: README.md, data.md, PLAN.md, `koutei-next-step` +
    `MEMORY.md`; session entry `sessions/24-06-2026.md`.
-4. ⏳ OPEN (cosmetic, not blocking): the rate's real-time unit (per-min vs per-tick)
-   is NOT yet pinned — desc text is i18n-id only. Grep
-   `TableCfg/I18nTextTable_*.json` for desc id `-2816445264583474700` (pelica PS
-   skill) to get the unit wording. Affects only SPA hour labels, not solver correctness.
+4. ✅ Resolved-by-decision (2026-06-24): desc id `-2816445264583474700` =
+   *"…Mood Regen +12%"* — a percentage, **not** a unit; the desc route was a dead end.
+   `SpaceshipConst` sibling durations are in seconds (`...InformationExchangeDuration
+   = 86400` = 1 day); only per-minute fits the PS timescale (drain ≈13.9 h, regen
+   ≈8.3 h). Adopted **per-minute (inferred, unconfirmed)** and stored per 1-hour slice
+   = ×60 in `DEFAULTS` (`drainBase 720`, `regen 1200`). Solver unaffected (rates scale
+   together). Full evidence: data.md § "Stamina/PS constants".
 5. Optional (NOT done — separate task): this dump could replace the scraper source
    entirely (`CharacterConst`, all `Spaceship*` tables). Don't fold into the wiring.
 

@@ -33,9 +33,9 @@ export interface AppState {
 const KEY = "koutei.state.v1";
 
 // PS (Physical Strength / 体力) constants from Niesc-F/EndfieldTableCfg
-// SpaceshipConst.json (data.md). Editable per operator. Real-time unit not yet
-// pinned — affects SPA hour labels only, not solver correctness (R-002).
-export const DEFAULTS = { stamina: 10000, staminaMax: 10000, drainBase: 12, regen: 20 };
+// SpaceshipConst.json (data.md). Rates per 1-hour slice = source per-minute ×60
+// (unit inferred, R-002 item 4). Editable per operator.
+export const DEFAULTS = { stamina: 10000, staminaMax: 10000, drainBase: 720, regen: 1200 };
 
 function defaultStations(): StationEntry[] {
   return [
