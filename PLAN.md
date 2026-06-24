@@ -152,11 +152,11 @@ Swiss Minimalism + industrial grid systems. Lightweight, snappy, backend-first.
 > hardcoded operators for tests; run the scraper before Phase 3/4 when real numbers
 > are needed.
 
-> **ON HOLD (2026-06-21).** Phases 1–4 ship end-to-end, but on *placeholder* stamina
-> mechanics. The four real constants — stamina base/max, drain (decay) rate, regen
-> rate, mood→stamina decay-reduction rate — are not in any reliable source (they live
-> in the encrypted game client). Held until that data is found. Sources searched and
-> ruled out: `docs/wiki/data.md` § "Blocking data gap".
+> **ACTIVE (resumed 2026-06-24).** Phases 1–4 ship end-to-end. The four constants are
+> now real **PS (Physical Strength / 体力)** values wired from `Niesc-F/EndfieldTableCfg`
+> `SpaceshipConst.json` (`docs/wiki/resolutions.md` R-002, `docs/wiki/data.md` §
+> "Stamina/PS constants"). Open caveat: the rate's real-time unit (per-min vs per-tick)
+> is not yet pinned — cosmetic, affects SPA hour labels only, not solver correctness.
 
 ### Implementation recommendation
 

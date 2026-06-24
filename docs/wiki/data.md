@@ -37,34 +37,32 @@ Game variables are sourced once into a committed JSON via a one-off scraper.
 > Build-time, not request-time. Re-run `node tools/seed/scrape.mjs` only when a game
 > patch changes the numbers; `_meta.fetchedAt` records when it was last pulled.
 
-## Blocking data gap — stamina/mood constants (project ON HOLD, 2026-06-21)
+## Stamina/PS constants — RESOLVED 2026-06-24 (was the project blocker)
 
-The optimizer needs four real numbers it currently fakes with placeholders
-(`web/src/state.ts` `DEFAULTS` `100/100/20/15`). The project is **on hold** until a
-reliable source is found:
+The four numbers the optimizer needs are **PS (Physical Strength / 体力)**, modelled
+on the **Spaceship** system (our seed skills are `facskill_spaceship_*`) — not
+"mood/stamina." Every 2026-06-21 search used the wrong term, which is why it
+dead-ended (see [`resolutions.md`](resolutions.md) R-002). Found and wired from
+`Niesc-F/EndfieldTableCfg` (`TableCfg/SpaceshipConst.json`):
 
-| Domain field | Meaning | Placeholder |
-|---|---|---|
-| `StaminaMax` | stamina base / max capacity | 100 |
-| `DrainBase` | stamina decay per slice in a standard slot | 20 |
-| `Regen` | stamina recovered per slice while resting | 15 |
-| `MoodBonus` | mood→stamina decay-reduction rate (aura) | user-picked skill value |
+| Domain field | Meaning | Real value | Source key |
+|---|---|---|---|
+| `StaminaMax` | PS base / max capacity | **10000** | `maxPhysicalStrength` |
+| `DrainBase` | PS decay per slice in a standard slot | **12** | `basePhysicalStrengthCostRate` |
+| `Regen` | PS recovered per slice while resting | **20** | `basePhysicalStrengthRecoveryRate` |
+| `MoodBonus` | PS decay-reduction / recovery aura | user-picked `physical_power` skill | `SpaceshipSkillTable` (0.12/0.16) |
 
-In game terms this is the **Mood/Control-Nexus fatigue layer**, distinct from the
-manufacturing-recipe layer. Sources searched 2026-06-21 and **ruled out**:
+Wired in `web/src/state.ts` `DEFAULTS` (per-operator editable) and `web/src/payload.ts`
+`moodSkillLine` (new operators default their mood line to the `physical_power` aura).
 
-- **endfieldtools.dev localdb** (our seed source) — operators (combat + factory-skill
-  bonuses) and `factory-browse-data.json` (15 mfg buildings, 168 items/recipes) only;
-  no mood/drain/regen keys.
-- **daydreamer-json/ak-endfield-api-archive** — a CDN/launcher mirror of **raw
-  encrypted Unity VFS chunks** (`.blc`/`.chk`, hashed names); only the manifest is
-  decrypted. Constants need a full asset datamine (out of scope).
-- **awesome-arknights-endfield tools** (factoriolab fork, jei-web, yituliu, …) — all
-  model the manufacturing-recipe layer, not operator fatigue.
-- **Community guides** (e.g. endfieldhub Control Nexus) — qualitative + *relative*
-  percentages only (+12–16% regen auras, −14–18% mood-drop), no absolute base/rate.
+**Open caveat:** the rate's real-time unit (per-min vs per-tick) is not yet pinned —
+the desc text is i18n-id only. Cosmetic: affects the SPA hour labels, not solver
+correctness. Pin via `TableCfg/I18nTextTable_*.json` desc id `-2816445264583474700`.
 
-**Unblock path:** datamine the client assets (decrypt the VFS chunks → extract the
-building/mood config table) or a published gamedata dump that includes the fatigue
-constants. Until then, drain/regen/max stay editable placeholders and only *relative*
-behaviour (rotation order, who tires first) is trustworthy, not absolute timing.
+Source raw-URL pattern:
+`https://raw.githubusercontent.com/Niesc-F/EndfieldTableCfg/main/TableCfg/<Table>.json`
+
+> Earlier (2026-06-21) sources ruled out — endfieldtools.dev localdb (operators + mfg
+> recipes only), daydreamer-json/ak-endfield-api-archive (raw encrypted Unity VFS
+> chunks), awesome-arknights-endfield planners (recipe layer), community guides
+> (relative % only). The dead-end was the naming mismatch above, not a missing source.

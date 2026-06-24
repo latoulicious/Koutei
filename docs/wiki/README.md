@@ -6,11 +6,12 @@ for Arknights: Endfield — a stateless Go constraint solver behind a TypeScript
 SPA. **Greenfield**: this wiki is design-intent ahead of the code; entries marked
 as placeholders are populated as the build lands.
 
-> **Status: ON HOLD (2026-06-21).** Engine + SPA work end-to-end on *placeholder*
-> stamina mechanics. Held pending a reliable source for the four real constants —
-> stamina base/max, drain (decay) rate, regen rate, and the mood→stamina decay-
-> reduction rate. Sources checked and ruled out below ([`data.md`](data.md)); these
-> live only in the encrypted game client. Resumes when that data is found.
+> **Status: ACTIVE (resumed 2026-06-24).** The four PS (Physical Strength / 体力)
+> constants were found and wired (`Niesc-F/EndfieldTableCfg` `SpaceshipConst.json`) —
+> see [`resolutions.md`](resolutions.md) R-002. Engine + SPA now run on sourced
+> stamina mechanics; new operators default their mood line to the `physical_power`
+> aura. Open caveat: the rate's real-time unit (per-min vs per-tick) is not yet
+> pinned — cosmetic, affects SPA hour labels only, not solver correctness.
 
 ## Structure
 

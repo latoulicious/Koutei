@@ -48,29 +48,30 @@ Format per resolution:
     `room_ps_cost_rate` (the drain reduction). Matches `rules.go` 1:1.
   - Other seed effects (`guestroom_*`, `plant_*`, `*_power_consume`) are dimensions
     the 2-knob solver doesn't model — leave user-driven / ignored.
-- files: docs only so far — findings.md (F-002), resolutions.md (this), and the
-  on-hold notes in README.md / data.md / PLAN.md / koutei-next-step memory still say
-  "blocked/datamine-only" and are now WRONG (flip them when wiring). **No code yet.**
+- files: data-level resolution documented here; **wiring landed 2026-06-24** —
+  `web/src/state.ts` (`DEFAULTS` → real PS values), `web/src/payload.ts`
+  (`moodSkillLine` helper), `web/src/main.ts` (`addOperator` defaults mood line),
+  `web/src/payload.test.ts` (test). On-hold notes flipped to active in README.md /
+  data.md / PLAN.md / `koutei-next-step` memory.
 - verification: values read straight from `SpaceshipConst.json`; `physical_power`→PS
   mapping cross-checked against `SpaceshipSkillTable.json` skill ids + params and the
   `SpaceshipRoomAttrTypeTable.json` attr types. Mechanic matches `internal/domain/rules.go`.
 - constraints honored: docs-only; no code/contract change; no fabrication (every
   number traced to a source key).
 
-### Next-session wiring (NOT done — needs approval before code)
-1. `web/src/state.ts` — `DEFAULTS` → `staminaMax:10000, stamina:10000, drainBase:12,
-   regen:20`. Update the placeholder comment to cite `SpaceshipConst`.
-2. `web/src/main.ts` `addOperator` + a `payload.ts` helper — default `moodLine` to
-   the operator's `physical_power` line (mirror `primarySkillLine`); add a test.
-3. Flip ON HOLD → active: README.md banner, data.md § "Blocking data gap", PLAN.md
-   note, `koutei-next-step` + `MEMORY.md`. Add a new session entry.
-4. **Confirm before trusting absolute timing:** the rate's real-time unit (per-min
-   vs per-tick) is NOT yet pinned — desc text is i18n-id only. Grep
+### Wiring (DONE 2026-06-24)
+1. ✅ `web/src/state.ts` — `DEFAULTS` → `stamina/staminaMax:10000, drainBase:12,
+   regen:20`; comment cites `SpaceshipConst`.
+2. ✅ `web/src/payload.ts` `moodSkillLine` + `web/src/main.ts` `addOperator` — new
+   operators default `moodLine` to their `physical_power` line; test added.
+3. ✅ Flipped ON HOLD → active: README.md, data.md, PLAN.md, `koutei-next-step` +
+   `MEMORY.md`; session entry `sessions/24-06-2026.md`.
+4. ⏳ OPEN (cosmetic, not blocking): the rate's real-time unit (per-min vs per-tick)
+   is NOT yet pinned — desc text is i18n-id only. Grep
    `TableCfg/I18nTextTable_*.json` for desc id `-2816445264583474700` (pelica PS
-   skill) to get the unit wording. Cosmetic — affects only the SPA hour labels, not
-   solver correctness.
-5. Optional: this dump could replace the scraper source entirely (`CharacterConst`,
-   all `Spaceship*` tables) — separate task, don't fold into the wiring.
+   skill) to get the unit wording. Affects only SPA hour labels, not solver correctness.
+5. Optional (NOT done — separate task): this dump could replace the scraper source
+   entirely (`CharacterConst`, all `Spaceship*` tables). Don't fold into the wiring.
 
 Source raw-URL pattern:
 `https://raw.githubusercontent.com/Niesc-F/EndfieldTableCfg/main/TableCfg/<Table>.json`

@@ -40,6 +40,12 @@ export function primarySkillLine(op: SeedOperator | undefined): number {
   return (mfg ?? skills[0])?.line ?? 1;
 }
 
+// moodSkillLine picks the default mood line: the physical_power (PS-recovery)
+// skill if present, else null (no aura). Mirrors primarySkillLine.
+export function moodSkillLine(op: SeedOperator | undefined): number | null {
+  return op?.factorySkills.find((s) => s.effect === "physical_power")?.line ?? null;
+}
+
 // buildPayload maps roster/station state to the backend's numeric contract in
 // array order — response assignment indices reference these same positions.
 export function buildPayload(

@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { buildPayload, primarySkillLine, skillValue } from "./payload";
+import { buildPayload, primarySkillLine, moodSkillLine, skillValue } from "./payload";
 import type { SeedOperator } from "./seed";
 import type { AppState } from "./state";
 
@@ -36,6 +36,21 @@ describe("primarySkillLine", () => {
     expect(primarySkillLine(mfgOp)).toBe(7); // manufacture line, not array-0
     expect(primarySkillLine(op)).toBe(1); // no manufacture skill → first line
     expect(primarySkillLine(undefined)).toBe(1); // unknown operator
+  });
+});
+
+describe("moodSkillLine", () => {
+  it("picks the physical_power line, else null", () => {
+    const psOp: SeedOperator = {
+      ...op,
+      factorySkills: [
+        { line: 4, roomType: 0, effectType: 0, effect: "manufacture_efficiency", icon: "", levels: [{ level: 1, value: 0.2 }] },
+        { line: 9, roomType: 1, effectType: 0, effect: "physical_power", icon: "", levels: [{ level: 1, value: 0.12 }] },
+      ],
+    };
+    expect(moodSkillLine(psOp)).toBe(9); // physical_power line, not array-0
+    expect(moodSkillLine(op)).toBeNull(); // no physical_power → null
+    expect(moodSkillLine(undefined)).toBeNull(); // unknown operator
   });
 });
 

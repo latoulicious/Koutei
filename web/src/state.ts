@@ -32,9 +32,10 @@ export interface AppState {
 
 const KEY = "koutei.state.v1";
 
-// Placeholder game constants: stamina mechanics are not in the seed (data.md).
-// Editable per operator; flagged pending a real stamina-mechanics source.
-export const DEFAULTS = { stamina: 100, staminaMax: 100, drainBase: 20, regen: 15 };
+// PS (Physical Strength / 体力) constants from Niesc-F/EndfieldTableCfg
+// SpaceshipConst.json (data.md). Editable per operator. Real-time unit not yet
+// pinned — affects SPA hour labels only, not solver correctness (R-002).
+export const DEFAULTS = { stamina: 10000, staminaMax: 10000, drainBase: 12, regen: 20 };
 
 function defaultStations(): StationEntry[] {
   return [
