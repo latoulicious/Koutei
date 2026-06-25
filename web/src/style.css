@@ -16,3 +16,21 @@ body {
   background: var(--color-bg);
   color: #e7ebef;
 }
+
+/* Strip native number spinners — bare numeric fields fit the industrial theme.
+   Values stay typeable; arrow keys still increment. */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+/* Help glossary dialog backdrop — dim the panel behind it. */
+.help-dialog::backdrop {
+  background: rgba(0, 0, 0, 0.6);
+}

@@ -1,9 +1,39 @@
-import { operators, slugs } from "../seed";
+import { operators, slugs, type SeedOperator } from "../seed";
 import { skillValue } from "../payload";
 import type { AppState, RosterEntry } from "../state";
 import type { Ctx } from "../context";
 import { el } from "../dom";
-import { columnHead, labeled, numberInput, selectInput } from "./widgets";
+import { columnHead, labeled, selectInput } from "./widgets";
+
+// readout is a register line: a snake_case engine value — muted key, colored value.
+function readout(key: string, value: string, color = "text-muted"): HTMLElement {
+  return el("div", { class: "flex items-center justify-between font-mono text-xs" }, [
+    el("span", { class: "text-muted" }, [key]),
+    el("span", { class: color }, [value]),
+  ]);
+}
+
+// avatar renders an operator's head icon (web/public/avatars/<slug>.webp), falling
+// back to a rarity-tinted initial when the image is missing. px = square size.
+function avatar(slug: string, op: SeedOperator | undefined, px: number): HTMLElement {
+  const ring = op?.rarity === 6 ? "border-accent" : "border-border";
+  const wrap = el("div", {
+    class: `shrink-0 grid place-items-center overflow-hidden bg-bg border ${ring} font-mono text-muted`,
+    style: `width:${px}px;height:${px}px;font-size:${Math.round(px * 0.4)}px`,
+  });
+  const img = el("img", {
+    src: `/avatars/${slug}.webp`,
+    alt: op?.name ?? slug,
+    class: "w-full h-full object-cover",
+    loading: "lazy",
+  }) as HTMLImageElement;
+  img.addEventListener("error", () => {
+    img.remove();
+    wrap.textContent = (op?.name ?? slug).slice(0, 1).toUpperCase();
+  });
+  wrap.append(img);
+  return wrap;
+}
 
 export function rosterColumn(state: AppState, ctx: Ctx): HTMLElement {
   const col = el("div", { class: "flex flex-col gap-2 overflow-y-auto pr-1" });
@@ -21,9 +51,10 @@ function card(r: RosterEntry, i: number, ctx: Ctx): HTMLElement {
 
   const wrap = el("div", { class: "border border-border bg-surface p-2 flex flex-col gap-1.5 shrink-0" });
 
-  wrap.append(el("div", { class: "flex items-center justify-between" }, [
-    el("span", { class: "font-mono text-sm" }, [op?.name ?? r.slug]),
-    el("button", { class: "text-muted hover:text-accent px-1", onClick: () => ctx.removeOperator(i) }, ["✕"]),
+  wrap.append(el("div", { class: "flex items-center gap-2" }, [
+    avatar(r.slug, op, 28),
+    el("span", { class: "font-mono text-sm flex-1 min-w-0 truncate" }, [op?.name ?? r.slug]),
+    el("button", { class: "text-muted hover:text-accent px-1 shrink-0", onClick: () => ctx.removeOperator(i) }, ["✕"]),
   ]));
 
   wrap.append(labeled("SKILL", selectInput(
@@ -45,31 +76,32 @@ function card(r: RosterEntry, i: number, ctx: Ctx): HTMLElement {
     (v) => ctx.setOperator(i, { moodLine: v === "" ? null : Number(v) }),
   )));
 
-  wrap.append(el("div", { class: "flex items-center justify-between font-mono text-xs" }, [
-    el("span", { class: "text-muted" }, ["skill_bonus"]),
-    el("span", { class: "text-ok" }, [bonus.toFixed(3)]),
-  ]));
+  const moodBonus = op && r.moodLine != null ? skillValue(op, r.moodLine, r.level) : 0;
+  wrap.append(readout("skill_bonus", bonus.toFixed(3), "text-ok"));
+  wrap.append(readout("mood_bonus", moodBonus.toFixed(3), "text-ok"));
 
   wrap.append(stamina(r, i, ctx));
 
-  wrap.append(labeled("DRAIN", numberInput(r.drainBase, (v) => ctx.touchOperator(i, { drainBase: v }), { step: "1" })));
-  wrap.append(labeled("REGEN", numberInput(r.regen, (v) => ctx.touchOperator(i, { regen: v }), { step: "1" })));
-  wrap.append(labeled("MAX", numberInput(r.staminaMax, (v) => ctx.setOperator(i, { staminaMax: v }), { min: "0" })));
+  // Global PS constants (SpaceshipConst) — identical for every operator, so read-only.
+  wrap.append(readout("drain_base", String(r.drainBase)));
+  wrap.append(readout("regen", String(r.regen)));
+  wrap.append(readout("stamina_max", String(r.staminaMax)));
 
   return wrap;
 }
 
-// stamina renders the blocky bar + slider; the live label/bar repaint on input,
+// stamina renders a 10-segment CSS bar + slider; the live label/bar repaint on input,
 // state commits on release (change) so a drag never triggers a re-render.
 function stamina(r: RosterEntry, i: number, ctx: Ctx): HTMLElement {
-  const wrap = el("div", { class: "flex flex-col gap-0.5" });
+  const wrap = el("div", { class: "flex flex-col gap-1" });
   const label = el("span", { class: "font-mono text-xs text-muted" });
-  const bar = el("span", {});
+  const cells = Array.from({ length: 10 }, () => el("span", { class: "flex-1 h-2 bg-border" }));
+  const bar = el("div", { class: "flex gap-px" }, cells);
   const paint = (v: number) => {
     const ratio = r.staminaMax > 0 ? Math.max(0, Math.min(1, v / r.staminaMax)) : 0;
     const filled = Math.round(ratio * 10);
-    bar.textContent = `[${"█".repeat(filled)}${"░".repeat(10 - filled)}]`;
-    bar.className = `font-mono text-xs ${ratio > 0.5 ? "text-ok" : "text-accent"}`;
+    const fill = ratio > 0.5 ? "bg-ok" : "bg-accent";
+    cells.forEach((c, idx) => (c.className = `flex-1 h-2 ${idx < filled ? fill : "bg-border"}`));
     label.textContent = `STAMINA ${Math.round(v)}/${r.staminaMax}`;
   };
   const slider = el("input", {
@@ -86,16 +118,28 @@ function stamina(r: RosterEntry, i: number, ctx: Ctx): HTMLElement {
   return wrap;
 }
 
+// adder is the full operator gallery: every slug as an avatar tile, click to add.
+// Tiles already in the roster are dimmed and inert.
 function adder(state: AppState, ctx: Ctx): HTMLElement {
   const inRoster = new Set(state.roster.map((r) => r.slug));
-  const avail = slugs.filter((s) => !inRoster.has(s));
-  const options = avail.length
-    ? avail.map((s) => ({ value: s, label: operators[s].name }))
-    : [{ value: "", label: "— all added —" }];
-  const sel = selectInput(options, avail[0] ?? "", () => {});
-  const btn = el("button", {
-    class: "border border-border bg-bg px-2 py-1 font-mono text-xs hover:border-accent hover:text-accent",
-    onClick: () => { if (sel.value) ctx.addOperator(sel.value); },
-  }, ["+ ADD"]);
-  return el("div", { class: "flex gap-1 items-center mt-1 shrink-0" }, [sel, btn]);
+  const grid = el("div", { class: "grid grid-cols-3 gap-1" });
+  for (const s of slugs) {
+    const op = operators[s];
+    const added = inRoster.has(s);
+    grid.append(el("button", {
+      class: `flex flex-col items-center gap-1 p-1 border border-border bg-surface ${
+        added ? "opacity-30 cursor-not-allowed" : "hover:border-accent"
+      }`,
+      title: op.name,
+      disabled: added ? "" : null,
+      onClick: () => { if (!added) ctx.addOperator(s); },
+    }, [
+      avatar(s, op, 40),
+      el("span", { class: "font-mono text-[10px] text-muted truncate w-full text-center" }, [op.name]),
+    ]));
+  }
+  return el("div", { class: "mt-2 shrink-0" }, [
+    el("div", { class: "font-mono text-xs tracking-widest text-muted mb-1" }, ["+ ADD OPERATOR"]),
+    grid,
+  ]);
 }

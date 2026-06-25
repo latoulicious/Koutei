@@ -37,6 +37,16 @@ Game variables are sourced once into a committed JSON via a one-off scraper.
 > Build-time, not request-time. Re-run `node tools/seed/scrape.mjs` only when a game
 > patch changes the numbers; `_meta.fetchedAt` records when it was last pulled.
 
+### Operator avatars
+
+Head icons live in `web/public/avatars/<slug>.webp` (Vite serves `public/` at the web
+root, so the SPA loads `/avatars/<slug>.webp`). Bundled, not hot-linked — keeps the app
+local-first/offline. Source: **vallov CDN** (`cdn.vallov.com/characters/<slug>/icon.webp`,
+from [reend.vallov.com](https://reend.vallov.com/characters/)); slugs match `seed.json`
+1:1 except a small `ALIAS` map (e.g. `mifu` → `mi-fu`). Fetched by `tools/seed/avatars.mjs`
+— re-run on a roster change. A missing icon falls back to a rarity-tinted initial in the
+SPA, so coverage gaps never break the UI.
+
 ## Stamina/PS constants — RESOLVED 2026-06-24 (was the project blocker)
 
 The four numbers the optimizer needs are **PS (Physical Strength / 体力)**, modelled

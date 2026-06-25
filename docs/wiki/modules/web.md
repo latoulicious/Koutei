@@ -35,10 +35,12 @@ web/
 
 ## Three columns (PLAN §4)
 
-1. **Roster slate** — operators picked from the seed; per operator a factory-skill
-   line + level (→ `skill_bonus`), an optional mood-skill line (→ `mood_bonus`),
-   a stamina slider with a blocky `[██████░░░░]` bar (green >50%, amber below), and
-   editable drain/regen/max.
+1. **Roster slate** — operators picked from the seed, shown with a head-icon avatar;
+   per operator a factory-skill line + level (→ `skill_bonus`), an optional mood-skill
+   line (→ `mood_bonus`), a stamina slider with a blocky 10-segment CSS bar (green
+   >50%, amber below). STAMINA is the only per-operator input; `drain_base`/`regen`/
+   `stamina_max` are read-only register readouts (global PS constants). Operators are
+   added from a gallery of all seed slugs (avatars, click to add).
 2. **Station matrix** — user-defined rooms (name, slots, mood toggle);
    seeded with PLAN's three defaults. Seed carries no facility data, so stations
    are entirely user input.

@@ -120,15 +120,16 @@ Swiss Minimalism + industrial grid systems. Lightweight, snappy, backend-first.
 
 ### Typography & form
 
-- Monospace for telemetry numbers (JetBrains Mono / SF Mono); a neutral
-  neo-grotesque sans for UI labels (Inter / Helvetica Neue).
+- Monospace throughout (JetBrains Mono / SF Mono) — labels and telemetry alike, for a
+  unified terminal/control-room read. Token casing convention: `docs/wiki/conventions.md`
+  § "Web UI tokens".
 - Sharp corners (0–2px radius). No gradients, no organic shadows. Solid 1px slate
   separators — physical terminal panels.
 
 ### Layout — three columns (Input → Processing → Output)
 
-1. **Roster slate** — vertical scannable operator list; blocky stamina bars
-   (`[██████░░░░]`) shifting green → amber as they drain; hovering an operator
+1. **Roster slate** — vertical scannable operator list; blocky 10-segment CSS stamina
+   bars shifting green → amber as they drain; hovering an operator
    highlights the station slots where their passives trigger a multiplier.
 2. **Station matrix** — grid of OMV Dijiang rooms + outposts; each card shows input
    requirement, output product, empty slots; master toggle for target priority.

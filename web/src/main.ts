@@ -8,13 +8,16 @@ import { el } from "./dom";
 import { rosterColumn } from "./ui/roster";
 import { stationsColumn } from "./ui/stations";
 import { timelineColumn } from "./ui/timeline";
+import { helpDialog } from "./ui/help";
 
 const state: AppState = load();
 const app = document.querySelector<HTMLDivElement>("#app")!;
+const help = helpDialog();
+document.body.append(help);
 
-const rosterWrap = el("section", { class: "p-3 flex flex-col overflow-hidden min-h-0" });
-const stationsWrap = el("section", { class: "p-3 flex flex-col overflow-hidden min-h-0 border-l border-border" });
-const timelineWrap = el("section", { class: "p-3 flex flex-col overflow-hidden min-h-0 border-l border-border" });
+const rosterWrap = el("section", { class: "p-4 flex flex-col overflow-hidden min-h-0" });
+const stationsWrap = el("section", { class: "p-4 flex flex-col overflow-hidden min-h-0 border-l border-border" });
+const timelineWrap = el("section", { class: "p-4 flex flex-col overflow-hidden min-h-0 border-l border-border" });
 
 function renderRoster(): void {
   rosterWrap.replaceChildren(rosterColumn(state, ctx));
@@ -120,12 +123,18 @@ function header(): HTMLElement {
     class: "border border-accent text-accent px-3 py-1 font-mono text-xs hover:bg-accent hover:text-bg",
     onClick: () => ctx.solve(),
   }, ["▶ OPTIMIZE"]);
+  const helpBtn = el("button", {
+    class: "border border-border text-muted w-6 h-6 font-mono text-xs hover:border-accent hover:text-accent",
+    title: "What does each value mean?",
+    onClick: () => help.showModal(),
+  }, ["?"]);
 
   return el("header", { class: "flex items-center gap-3 px-3 py-2 border-b border-border bg-surface shrink-0" }, [
     el("h1", { class: "font-mono text-sm tracking-widest" }, ["KOUTEI · 工程"]),
     el("div", { class: "flex-1" }),
     labeledInline("HORIZON", horizon),
     labeledInline("TARGET", target),
+    helpBtn,
     optimizeBtn,
   ]);
 }
@@ -133,7 +142,7 @@ function header(): HTMLElement {
 app.className = "flex flex-col h-screen";
 app.append(
   header(),
-  el("main", { class: "grid grid-cols-[1fr_1fr_1.4fr] flex-1 min-h-0" }, [rosterWrap, stationsWrap, timelineWrap]),
+  el("main", { class: "grid grid-cols-[1fr_1fr_1.4fr] gap-2 flex-1 min-h-0" }, [rosterWrap, stationsWrap, timelineWrap]),
 );
 renderRoster();
 renderStations();
