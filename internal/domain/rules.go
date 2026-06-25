@@ -18,14 +18,14 @@ func OutputModifier(stamina float64) float64 {
 	return 1
 }
 
-// RoomEfficiency is the multi-slot synergy evaluator over the operator bonuses
-// present in the room this slice.
-func RoomEfficiency(skillBonuses []float64, synergyCombo float64) float64 {
+// RoomEfficiency sums the operator bonuses present in the room this slice over a
+// base of 1.0. Empty room = base 1.0.
+func RoomEfficiency(skillBonuses []float64) float64 {
 	efficiency := 1.0
 	for _, bonus := range skillBonuses {
 		efficiency += bonus
 	}
-	return efficiency + synergyCombo
+	return efficiency
 }
 
 // MoodAura is the slice-wide drain reduction from mood-station occupants: their

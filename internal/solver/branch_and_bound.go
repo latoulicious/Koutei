@@ -111,7 +111,7 @@ func sliceCandidates(ops []domain.Operator, stations []domain.Station, stamina [
 			nextPicks, nextEff := picks, eff
 			if len(subset) > 0 {
 				// Empty rooms add nothing — matches greedy, which skips them.
-				nextEff += domain.RoomEfficiency(bonusesOf(ops, subset), stations[s].SynergyCombo)
+				nextEff += domain.RoomEfficiency(bonusesOf(ops, subset))
 				nextPicks = append(slices.Clone(picks), Assignment{Station: s, Operators: subset})
 			}
 			rec(s+1, removeAll(pool, subset), nextPicks, nextEff)
@@ -168,13 +168,13 @@ func finalizeCandidate(ops []domain.Operator, stations []domain.Station, stamina
 // maxSliceEfficiency is an admissible upper bound on one slice: every station staffed
 // with the globally highest bonuses, ignoring stamina. Stamina only removes options,
 // so the real max never exceeds this — which keeps the B&B bound valid.
-// ponytail: assumes non-negative synergy/bonus; negatives dropped to stay an over-estimate.
+// ponytail: assumes non-negative bonus; negatives dropped to stay an over-estimate.
 func maxSliceEfficiency(ops []domain.Operator, stations []domain.Station) float64 {
 	totalSlots := 0
 	sum := 0.0
 	for _, st := range stations {
 		totalSlots += st.Slots
-		sum += domain.RoomEfficiency(nil, st.SynergyCombo) // 1.0 + synergyCombo per room
+		sum += domain.RoomEfficiency(nil) // base 1.0 per room
 	}
 	bonuses := make([]float64, 0, len(ops))
 	for _, op := range ops {

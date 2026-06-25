@@ -78,3 +78,21 @@ Format per resolution:
 
 Source raw-URL pattern:
 `https://raw.githubusercontent.com/Niesc-F/EndfieldTableCfg/main/TableCfg/<Table>.json`
+
+## R-003 remove the fabricated synergyCombo term  (resolves F-003)
+- date: 2026-06-25
+- change: dropped `synergyCombo` end-to-end — `RoomEfficiency(skillBonuses)` (single
+  param, `1.0 + Σ bonuses`), removed `Station.SynergyCombo`, `stationDTO.synergy_combo`,
+  the SPA `StationEntry.synergyCombo` + SYNERGY input, and the PLAN/domain/api/web doc
+  references. B&B bound `maxSliceEfficiency` now adds `1.0` per room (was `1.0 + synergy`).
+- files: internal/domain/{rules,station}.go, internal/solver/{solver,branch_and_bound}.go,
+  internal/interfaces/http/optimize.go, web/src/{state,main,payload}.ts, web/src/ui/stations.ts,
+  the four Go test files + payload.test.ts, PLAN.md, docs/wiki/{domain,known-constraints,
+  data}.md, docs/wiki/modules/{domain,api,web}.md, decisions/0001-numeric-payload.md.
+- verification: `gofmt -l` clean, `go vet ./...` clean, `go test ./...` green, `vitest`
+  green, `tsc --noEmit` clean. Determinism unaffected (RoomEfficiency still pure); B&B
+  bound stays admissible (1.0 ≤ prior 1.0+synergy). Payload break is backward/forward-
+  compatible: Go ignores unknown JSON fields, old localStorage stations keep an ignored
+  `synergyCombo` key (no migration needed).
+- constraints honored: approved breaking change to a protected contract (internal,
+  single-consumer SPA↔own backend); no unrelated cleanup mixed in; finding/resolution paired.

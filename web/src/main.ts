@@ -55,7 +55,7 @@ const ctx: Ctx = {
     save(state);
   },
   addStation() {
-    state.stations.push({ name: "New Station", slots: 1, synergyCombo: 0, mood: false });
+    state.stations.push({ name: "New Station", slots: 1, mood: false });
     save(state);
     renderStations();
   },

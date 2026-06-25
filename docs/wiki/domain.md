@@ -11,8 +11,7 @@ maximize a chosen production target without violating stamina or slot limits.
   bonuses keyed to facility recipes). Identified by a stable string id; the engine
   never reads the id, only the numeric attributes it maps to.
 - **Station / Facility** — a room (e.g. AIC Manufacturing, Mood Nexus, Growth
-  Chamber) with `slots`, an `active_recipe`, and an output product. Multi-slot
-  rooms support synergy.
+  Chamber) with `slots`, an `active_recipe`, and an output product.
 - **Timeline** — the horizon discretized into `T` equal slices (e.g. 1-hour
   blocks). Each slice is one assignment of operators to slots.
 - **Schedule output** — the per-slice dispatch the solver returns: who works
@@ -25,8 +24,8 @@ maximize a chosen production target without violating stamina or slot limits.
 2. **Zero-stamina penalty** — at `stamina ≤ 0` the operator's output modifier drops
    to `0%` immediately. A branch that keeps a zero-stamina operator in a production
    slot is pruned.
-3. **Synergy** — multi-slot room efficiency is
-   `efficiency_total = 1.0 + Σ(operatorSkillBonus) + synergyCombo`.
+3. **Room efficiency** — room efficiency is
+   `efficiency_total = 1.0 + Σ(operatorSkillBonus)`.
 
 ## Target optimization
 

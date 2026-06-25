@@ -56,13 +56,13 @@ func TestSolveBranchBound_NeverWorseThanGreedy(t *testing.T) {
 			[]domain.Station{{Slots: 1}}, 4,
 		},
 		{
-			"two stations with synergy",
+			"two stations",
 			[]domain.Operator{
 				{Stamina: 30, StaminaMax: 30, DrainBase: 10, Regen: 4, SkillBonus: 0.6},
 				{Stamina: 30, StaminaMax: 30, DrainBase: 10, Regen: 4, SkillBonus: 0.4},
 				{Stamina: 30, StaminaMax: 30, DrainBase: 10, Regen: 4, SkillBonus: 0.2},
 			},
-			[]domain.Station{{Slots: 2, SynergyCombo: 0.1}, {Slots: 1}}, 3,
+			[]domain.Station{{Slots: 2}, {Slots: 1}}, 3,
 		},
 	}
 	for _, tc := range cases {
@@ -100,7 +100,7 @@ func TestSolveBranchBound_Deterministic(t *testing.T) {
 		{Stamina: 50, StaminaMax: 50, DrainBase: 5, Regen: 3, SkillBonus: 0.2}, // tie
 		{Stamina: 30, StaminaMax: 30, DrainBase: 8, Regen: 3, SkillBonus: 0.4},
 	}
-	stations := []domain.Station{{Slots: 2, SynergyCombo: 0.1}}
+	stations := []domain.Station{{Slots: 2}}
 
 	a := SolveBranchBound(ops, stations, 4)
 	b := SolveBranchBound(ops, stations, 4)

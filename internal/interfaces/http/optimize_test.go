@@ -28,7 +28,7 @@ func TestOptimize_HappyPath(t *testing.T) {
 			{"stamina":100,"stamina_max":100,"drain_base":20,"regen":15,"skill_bonus":0.5,"mood_bonus":0},
 			{"stamina":100,"stamina_max":100,"drain_base":20,"regen":15,"skill_bonus":0.3,"mood_bonus":0}
 		],
-		"stations": [ {"slots":1,"synergy_combo":0,"mood":false} ]
+		"stations": [ {"slots":1,"mood":false} ]
 	}`
 	rec := doRequest(t, http.MethodPost, "/api/v1/optimize", body)
 	if rec.Code != http.StatusOK {

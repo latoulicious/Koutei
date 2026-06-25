@@ -77,7 +77,7 @@ func solveSlice(ops []domain.Operator, stations []domain.Station, stamina []floa
 			continue
 		}
 		slice.Assignments = append(slice.Assignments, Assignment{Station: s, Operators: picked})
-		slice.Efficiency += domain.RoomEfficiency(bonuses, station.SynergyCombo)
+		slice.Efficiency += domain.RoomEfficiency(bonuses)
 		for _, op := range picked {
 			assigned[op] = true
 			if station.Mood {

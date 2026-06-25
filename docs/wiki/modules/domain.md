@@ -19,9 +19,8 @@ type Operator struct {
 }
 
 type Station struct {
-	Slots        int     // hard capacity: never exceeded
-	SynergyCombo float64 // additive bonus when the room's slots cooperate
-	Mood         bool    // mood station: staffing it activates occupants' MoodBonus aura
+	Slots int  // hard capacity: never exceeded
+	Mood  bool // mood station: staffing it activates occupants' MoodBonus aura
 }
 ```
 
@@ -33,7 +32,7 @@ The caller (HTTP adapter) maps a game id → index; the engine never sees the id
 |---|---|---|
 | `DrainStamina(stamina, drainBase, moodBonus)` | `stamina − drainBase·(1 − moodBonus)` | `moodBonus` ∈ [0,1] = Mood Nexus drain reduction. May return < 0. |
 | `OutputModifier(stamina)` | `0` if `stamina ≤ 0`, else `1` | the zero-stamina penalty; gates pruning. |
-| `RoomEfficiency(skillBonuses, synergyCombo)` | `1.0 + Σ skillBonus + synergyCombo` | empty room = base `1.0`. |
+| `RoomEfficiency(skillBonuses)` | `1.0 + Σ skillBonus` | empty room = base `1.0`. |
 | `RecoverStamina(stamina, regen, max)` | `min(stamina + regen, max)` | rest path; never lowers stamina, so a zero `max` is a no-op. |
 | `MoodAura(moodBonuses)` | `clamp(Σ moodBonus, 0, 1)` | slice-wide drain reduction from mood-station occupants; clamp keeps it a valid `DrainStamina` `moodBonus`. |
 

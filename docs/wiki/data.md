@@ -31,8 +31,8 @@ Game variables are sourced once into a committed JSON via a one-off scraper.
   `{ _meta:{source,fetchedAt,count}, operators:{ <slug>:{ charId, name, rarity,
   profession, factorySkills:[…] } } }`. The SPA bundles it (§ above).
 - **Scope** — operators-only. Stamina mechanics (drain/regen/max) and facility data
-  (slots/synergy/mood) are **not** in this source — game constants / a separate
-  source / user sliders; a facilities seed is a follow-up.
+  (slots/mood) are **not** in this source — game constants / a separate source / user
+  sliders; a facilities seed is a follow-up.
 
 > Build-time, not request-time. Re-run `node tools/seed/scrape.mjs` only when a game
 > patch changes the numbers; `_meta.fetchedAt` records when it was last pulled.

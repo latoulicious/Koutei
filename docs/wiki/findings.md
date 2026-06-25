@@ -42,3 +42,17 @@ Format per finding:
   Root cause of the dead-end: the resource is **Physical Strength (PS / 体力)**, not
   "mood/stamina" — every search used the wrong term (see R-002).
 - status: resolved (→ R-002)
+
+## F-003 RoomEfficiency synergyCombo models a mechanic absent from the game
+- date: 2026-06-25
+- source: manual (user domain knowledge)
+- severity: medium — solver adds a phantom per-room bonus; absolute efficiency is
+  inflated by a term with no in-game basis (relative rotation order still sound)
+- location: internal/domain/rules.go:23 (`RoomEfficiency` `synergyCombo`),
+  internal/domain/station.go:7 (`Station.SynergyCombo`), PLAN.md:80 (rule 3)
+- problem: PLAN §2 rule-3 "synergy evaluator" baked a per-room additive term
+  (`+ synergyCombo`, "additive bonus when the room's slots cooperate") into the domain
+  at Phase 1. Endfield has no operator co-placement / room-cooperation bonus — confirmed
+  by the user (game knowledge). It was a design assumption, never validated. Only the
+  `+ synergyCombo` tail is fabricated; `1.0 + Σ skillBonus` is real.
+- status: resolved (→ R-003)

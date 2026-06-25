@@ -66,18 +66,17 @@ func TestRoomEfficiency(t *testing.T) {
 	tests := []struct {
 		name         string
 		skillBonuses []float64
-		synergyCombo float64
 		want         float64
 	}{
-		{"empty room is base 1.0", nil, 0, 1.0},
-		{"single bonus", []float64{0.2}, 0, 1.2},
-		{"bonuses sum plus combo", []float64{0.2, 0.3}, 0.1, 1.6},
+		{"empty room is base 1.0", nil, 1.0},
+		{"single bonus", []float64{0.2}, 1.2},
+		{"bonuses sum over base", []float64{0.2, 0.3}, 1.5},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got := RoomEfficiency(tt.skillBonuses, tt.synergyCombo)
+			got := RoomEfficiency(tt.skillBonuses)
 			if !almostEqual(got, tt.want) {
-				t.Errorf("RoomEfficiency(%v,%v) = %v, want %v", tt.skillBonuses, tt.synergyCombo, got, tt.want)
+				t.Errorf("RoomEfficiency(%v) = %v, want %v", tt.skillBonuses, got, tt.want)
 			}
 		})
 	}

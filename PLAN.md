@@ -77,8 +77,8 @@ discretized timeline (`T` slices of, e.g., 1-hour blocks).
    `stamina_{t+1} = stamina_t − (Δ_base × (1 − MoodNexusBonus))`
 2. **Zero-stamina penalty** — at `stamina ≤ 0` the operator's output modifier drops
    to `0%` immediately.
-3. **Synergy evaluator** — multi-slot room (e.g. AIC Manufacturing) efficiency:
-   `efficiency_total = 1.0 + Σ(operatorSkillBonus) + synergyCombo`
+3. **Room efficiency** — multi-slot room (e.g. AIC Manufacturing) efficiency:
+   `efficiency_total = 1.0 + Σ(operatorSkillBonus)`
 
 ---
 
@@ -143,7 +143,7 @@ Swiss Minimalism + industrial grid systems. Lightweight, snappy, backend-first.
 
 | Phase | Goal | Stack |
 |---|---|---|
-| 1 | Core domain & types — `Operator`, `Station`, `TimelineState`, `ScheduleOutput`; encode the 3 rules; unit tests on static cases (drain over N hours, zero-stamina prune, synergy). Greedy solver + local CLI to get numbers flowing. | Go |
+| 1 | Core domain & types — `Operator`, `Station`, `TimelineState`, `ScheduleOutput`; encode the 3 rules; unit tests on static cases (drain over N hours, zero-stamina prune, room efficiency). Greedy solver + local CLI to get numbers flowing. | Go |
 | 2 | Solver search engine — greedy state-eval loop, then branch-and-bound with pruning (reject zero-stamina-in-production and dominated branches). | Go |
 | 3 | API & hosting — wrap the solver in an HTTP router (`POST /api/v1/optimize`); deploy the binary on the VPS behind nginx; surface execution-time logs. | Go + nginx |
 | 4 | Interface — three-column matte grid (Tailwind); fetch client → VPS endpoint; render the timeline dynamically. | TypeScript |

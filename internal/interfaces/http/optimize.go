@@ -34,9 +34,8 @@ type operatorDTO struct {
 
 // stationDTO mirrors domain.Station on the wire.
 type stationDTO struct {
-	Slots        int     `json:"slots"`
-	SynergyCombo float64 `json:"synergy_combo"`
-	Mood         bool    `json:"mood"`
+	Slots int  `json:"slots"`
+	Mood  bool `json:"mood"`
 }
 
 // optimizeResponse mirrors solver.Schedule. execution_ms is envelope-only
@@ -96,9 +95,8 @@ func (req optimizeRequest) toDomain() ([]domain.Operator, []domain.Station) {
 	stations := make([]domain.Station, len(req.Stations))
 	for i, s := range req.Stations {
 		stations[i] = domain.Station{
-			Slots:        s.Slots,
-			SynergyCombo: s.SynergyCombo,
-			Mood:         s.Mood,
+			Slots: s.Slots,
+			Mood:  s.Mood,
 		}
 	}
 	return ops, stations

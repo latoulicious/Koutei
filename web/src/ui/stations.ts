@@ -29,7 +29,6 @@ function card(s: StationEntry, i: number, ctx: Ctx): HTMLElement {
   ]));
 
   wrap.append(labeled("SLOTS", numberInput(s.slots, (v) => ctx.touchStation(i, { slots: v }), { min: "0", max: "16", step: "1" })));
-  wrap.append(labeled("SYNERGY", numberInput(s.synergyCombo, (v) => ctx.touchStation(i, { synergyCombo: v }), { step: "0.05" })));
 
   const mood = el("input", {
     type: "checkbox",

@@ -12,7 +12,6 @@ export interface OperatorDTO {
 
 export interface StationDTO {
   slots: number;
-  synergy_combo: number;
   mood: boolean;
 }
 
@@ -68,7 +67,6 @@ export function buildPayload(
     }),
     stations: state.stations.map((s) => ({
       slots: s.slots,
-      synergy_combo: s.synergyCombo,
       mood: s.mood,
     })),
   };

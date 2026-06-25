@@ -26,7 +26,7 @@ code — they become binding as components land. Component-specific contracts li
 - **Stamina is monotonic non-increasing while assigned** (linear drain); rest is the
   only way back up. The drain formula in [`domain.md`](domain.md) is the contract.
 - **Efficiency is computed, never stored.** Room efficiency is derived per slice
-  from operators present + synergy; it is not carried across slices as a counter.
+  from the operators present; it is not carried across slices as a counter.
 
 ## Operational
 

@@ -39,7 +39,7 @@ web/
    line + level (→ `skill_bonus`), an optional mood-skill line (→ `mood_bonus`),
    a stamina slider with a blocky `[██████░░░░]` bar (green >50%, amber below), and
    editable drain/regen/max.
-2. **Station matrix** — user-defined rooms (name, slots, synergy, mood toggle);
+2. **Station matrix** — user-defined rooms (name, slots, mood toggle);
    seeded with PLAN's three defaults. Seed carries no facility data, so stations
    are entirely user input.
 3. **Gantt timeline** — the solver response as vertical hour blocks; per-station

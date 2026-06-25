@@ -48,7 +48,7 @@ func TestSolve_Deterministic(t *testing.T) {
 		{Stamina: 50, DrainBase: 5, SkillBonus: 0.2}, // tie — index breaks it
 		{Stamina: 30, DrainBase: 8, SkillBonus: 0.4},
 	}
-	stations := []domain.Station{{Slots: 2, SynergyCombo: 0.1}}
+	stations := []domain.Station{{Slots: 2}}
 
 	a := Solve(ops, stations, 5)
 	b := Solve(ops, stations, 5)

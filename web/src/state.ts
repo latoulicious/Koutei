@@ -16,7 +16,6 @@ export interface RosterEntry {
 export interface StationEntry {
   name: string;
   slots: number;
-  synergyCombo: number;
   mood: boolean;
 }
 
@@ -39,9 +38,9 @@ export const DEFAULTS = { stamina: 10000, staminaMax: 10000, drainBase: 720, reg
 
 function defaultStations(): StationEntry[] {
   return [
-    { name: "AIC Manufacturing", slots: 2, synergyCombo: 0.1, mood: false },
-    { name: "Mood Nexus", slots: 1, synergyCombo: 0, mood: true },
-    { name: "Growth Chamber", slots: 1, synergyCombo: 0, mood: false },
+    { name: "AIC Manufacturing", slots: 2, mood: false },
+    { name: "Mood Nexus", slots: 1, mood: true },
+    { name: "Growth Chamber", slots: 1, mood: false },
   ];
 }
 

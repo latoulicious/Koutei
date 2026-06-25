@@ -8,7 +8,7 @@
 
 [`PLAN.md`](../../../PLAN.md) §53 documents the optimize request as a **game-string**
 payload (`id`, `base_skills`, `active_recipe`, `target_priority`). Resolving those
-strings to the solver's numeric domain (`SkillBonus`, `DrainBase`, `SynergyCombo`,
+strings to the solver's numeric domain (`SkillBonus`, `DrainBase`, `MoodBonus`,
 …) requires the static game-data seed. That seed does not exist — PLAN itself says
 "run the scraper before Phase 3/4 when real numbers are needed," and [`AGENTS.md`](../../../AGENTS.md)
 forbids fabricating seed data and broad changes.

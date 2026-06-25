@@ -32,7 +32,7 @@ straight across (`optimizeRequest.toDomain`). No seed lookup, no string parsing.
     { "stamina": 100, "stamina_max": 100, "drain_base": 20, "regen": 15, "skill_bonus": 0.5, "mood_bonus": 0 }
   ],
   "stations": [
-    { "slots": 2, "synergy_combo": 0.1, "mood": false }
+    { "slots": 2, "mood": false }
   ]
 }
 ```

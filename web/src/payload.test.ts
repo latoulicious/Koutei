@@ -63,7 +63,7 @@ describe("buildPayload", () => {
         { slug: "test", skillLine: 1, level: 1, stamina: 80, staminaMax: 100, drainBase: 20, regen: 15, moodLine: 2 },
         { slug: "missing", skillLine: 1, level: 0, stamina: 50, staminaMax: 100, drainBase: 20, regen: 15, moodLine: null },
       ],
-      stations: [{ name: "AIC", slots: 2, synergyCombo: 0.1, mood: false }],
+      stations: [{ name: "AIC", slots: 2, mood: false }],
       result: null,
       solving: false,
       error: null,
@@ -79,6 +79,6 @@ describe("buildPayload", () => {
     expect(p.operators[0].mood_bonus).toBe(0.1); // line 2, clamped to idx 0
     expect(p.operators[1].skill_bonus).toBe(0); // unknown slug → 0
     expect(p.operators[1].mood_bonus).toBe(0); // moodLine null → 0
-    expect(p.stations[0]).toEqual({ slots: 2, synergy_combo: 0.1, mood: false });
+    expect(p.stations[0]).toEqual({ slots: 2, mood: false });
   });
 });
