@@ -84,3 +84,31 @@ Source raw-URL pattern:
 > recipes only), daydreamer-json/ak-endfield-api-archive (raw encrypted Unity VFS
 > chunks), awesome-arknights-endfield planners (recipe layer), community guides
 > (relative % only). The dead-end was the naming mismatch above, not a missing source.
+
+## Recipe/yield tables — FOUND 2026-06-29 (unblocks the fan-out feature)
+
+The recipe→yield data the solver fan-out needs was **never actually missing** — it lives
+in the same `EndfieldTableCfg` repo as the PS constants, just unscraped. The old
+"no recipe/yield data, can't fabricate" block was wrong about the *source*, right only
+about *our* operators-only seed.
+
+- **Source** — `SpaceshipManufactureFormulaTable.json` (8 recipes) +
+  `SpaceshipGrowCabinFormulaTable.json` (15). Each carries `outcomeItemId`,
+  `perCapacity`/`outcomeItemCount` (yield), `totalProgress` (work), `roomAttrType`.
+- **Tooling** — `tools/seed/recipes.mjs` (faithful extractor, same pattern as
+  `scrape.mjs`/`avatars.mjs`). Output `tools/seed/recipes.json`: 23 recipes keyed by id,
+  `{ id, roomType, attrType, target, level, outItem, out, progress[, seedItem/seedCount] }`.
+- **The join (confirmed, not fabricated)** — operator skill `effectType` is its *own*
+  enum, NOT `RoomAttrTypeTable.type`. But every manufacture `roomAttrType` (8–17, 24, 25)
+  resolves to the same `room_produce_rate` icon, so `manufacture_efficiency` boosts **all**
+  manufacture recipes equally — no per-recipe operator specialization exists. Therefore
+  `target_priority` drives (1) which **room type** to favor and (2) concrete **yield**,
+  not operator reshuffling within a room type. `attrType` doubles as the target slug:
+  16=`exp`, 17=`weapon_exp`, 3=`char_material`, 4=`skill_material`, 5=`weapon_material`.
+- **INFERRED, UNCONFIRMED — throughput formula.** Converting room efficiency% → items/hour
+  (does `produce_rate` scale `totalProgress` linearly? per what time base?) is an assumption
+  of the same class as the PS time-unit above. **Not yet adopted** — the resolver step is
+  gated on this decision; do not fabricate a formula into the scraper.
+
+> Re-run `node tools/seed/recipes.mjs` on a game patch. Guestroom-clue recipes deferred
+> (credit reward, different unit — add when a guestroom target is wanted).

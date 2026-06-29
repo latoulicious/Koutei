@@ -1,0 +1,269 @@
+{
+	"_meta": {
+		"source": "https://raw.githubusercontent.com/Niesc-F/EndfieldTableCfg/main/TableCfg/",
+		"fetchedAt": "2026-06-29T08:13:40.356Z",
+		"count": 23
+	},
+	"recipes": {
+		"mfg_exp_1_1": {
+			"id": "mfg_exp_1_1",
+			"roomType": "manufacture",
+			"attrType": 16,
+			"target": "exp",
+			"level": 1,
+			"outItem": "item_expcard_stage1_low",
+			"out": 1,
+			"progress": 92000
+		},
+		"mfg_exp_2_2": {
+			"id": "mfg_exp_2_2",
+			"roomType": "manufacture",
+			"attrType": 16,
+			"target": "exp",
+			"level": 3,
+			"outItem": "item_expcard_stage2_high",
+			"out": 30,
+			"progress": 8800000
+		},
+		"mfg_weapon_exp_2": {
+			"id": "mfg_weapon_exp_2",
+			"roomType": "manufacture",
+			"attrType": 17,
+			"target": "weapon_exp",
+			"level": 2,
+			"outItem": "item_weapon_expcard_mid",
+			"out": 2,
+			"progress": 420000
+		},
+		"mfg_exp_1_2": {
+			"id": "mfg_exp_1_2",
+			"roomType": "manufacture",
+			"attrType": 16,
+			"target": "exp",
+			"level": 2,
+			"outItem": "item_expcard_stage1_mid",
+			"out": 2,
+			"progress": 420000
+		},
+		"mfg_exp_2_1": {
+			"id": "mfg_exp_2_1",
+			"roomType": "manufacture",
+			"attrType": 16,
+			"target": "exp",
+			"level": 2,
+			"outItem": "item_expcard_stage2_low",
+			"out": 5,
+			"progress": 1050000
+		},
+		"mfg_weapon_exp_1": {
+			"id": "mfg_weapon_exp_1",
+			"roomType": "manufacture",
+			"attrType": 17,
+			"target": "weapon_exp",
+			"level": 1,
+			"outItem": "item_weapon_expcard_low",
+			"out": 1,
+			"progress": 92000
+		},
+		"mfg_exp_1_3": {
+			"id": "mfg_exp_1_3",
+			"roomType": "manufacture",
+			"attrType": 16,
+			"target": "exp",
+			"level": 3,
+			"outItem": "item_expcard_stage1_high",
+			"out": 12,
+			"progress": 3520000
+		},
+		"mfg_weapon_exp_3": {
+			"id": "mfg_weapon_exp_3",
+			"roomType": "manufacture",
+			"attrType": 17,
+			"target": "weapon_exp",
+			"level": 3,
+			"outItem": "item_weapon_expcard_high",
+			"out": 12,
+			"progress": 3520000
+		},
+		"growcabin_plant_crylplant_1_1": {
+			"id": "growcabin_plant_crylplant_1_1",
+			"roomType": "grow",
+			"attrType": 4,
+			"target": "skill_material",
+			"level": 1,
+			"outItem": "item_plant_crylplant_1_1",
+			"out": 3,
+			"progress": 6250000,
+			"seedItem": "item_plant_crylplant_seed_1_1",
+			"seedCount": 1
+		},
+		"growcabin_plant_spcstone_2_1": {
+			"id": "growcabin_plant_spcstone_2_1",
+			"roomType": "grow",
+			"attrType": 5,
+			"target": "weapon_material",
+			"level": 3,
+			"outItem": "item_plant_spcstone_2_1",
+			"out": 1,
+			"progress": 45000000,
+			"seedItem": "item_plant_spcstone_seed_2_1",
+			"seedCount": 1
+		},
+		"growcabin_plant_crylplant_1_2": {
+			"id": "growcabin_plant_crylplant_1_2",
+			"roomType": "grow",
+			"attrType": 4,
+			"target": "skill_material",
+			"level": 2,
+			"outItem": "item_plant_crylplant_1_2",
+			"out": 3,
+			"progress": 10000000,
+			"seedItem": "item_plant_crylplant_seed_1_2",
+			"seedCount": 1
+		},
+		"growcabin_plant_spcstone_1_1": {
+			"id": "growcabin_plant_spcstone_1_1",
+			"roomType": "grow",
+			"attrType": 5,
+			"target": "weapon_material",
+			"level": 1,
+			"outItem": "item_plant_spcstone_1_1",
+			"out": 1,
+			"progress": 6250000,
+			"seedItem": "item_plant_spcstone_seed_1_1",
+			"seedCount": 1
+		},
+		"growcabin_plant_crylplant_1_3": {
+			"id": "growcabin_plant_crylplant_1_3",
+			"roomType": "grow",
+			"attrType": 4,
+			"target": "skill_material",
+			"level": 3,
+			"outItem": "item_plant_crylplant_1_3",
+			"out": 3,
+			"progress": 22000000,
+			"seedItem": "item_plant_crylplant_seed_1_3",
+			"seedCount": 1
+		},
+		"growcabin_plant_crylplant_2_1": {
+			"id": "growcabin_plant_crylplant_2_1",
+			"roomType": "grow",
+			"attrType": 4,
+			"target": "skill_material",
+			"level": 3,
+			"outItem": "item_plant_crylplant_2_1",
+			"out": 3,
+			"progress": 45000000,
+			"seedItem": "item_plant_crylplant_seed_2_1",
+			"seedCount": 1
+		},
+		"growcabin_plant_mushroom_1_3": {
+			"id": "growcabin_plant_mushroom_1_3",
+			"roomType": "grow",
+			"attrType": 3,
+			"target": "char_material",
+			"level": 3,
+			"outItem": "item_plant_mushroom_1_3",
+			"out": 1,
+			"progress": 22000000,
+			"seedItem": "item_plant_mushroom_seed_1_3",
+			"seedCount": 1
+		},
+		"growcabin_plant_crylplant_2_2": {
+			"id": "growcabin_plant_crylplant_2_2",
+			"roomType": "grow",
+			"attrType": 4,
+			"target": "skill_material",
+			"level": 3,
+			"outItem": "item_plant_crylplant_2_2",
+			"out": 3,
+			"progress": 45000000,
+			"seedItem": "item_plant_crylplant_seed_2_2",
+			"seedCount": 1
+		},
+		"growcabin_plant_spcstone_1_3": {
+			"id": "growcabin_plant_spcstone_1_3",
+			"roomType": "grow",
+			"attrType": 5,
+			"target": "weapon_material",
+			"level": 3,
+			"outItem": "item_plant_spcstone_1_3",
+			"out": 1,
+			"progress": 22000000,
+			"seedItem": "item_plant_spcstone_seed_1_3",
+			"seedCount": 1
+		},
+		"growcabin_plant_mushroom_1_1": {
+			"id": "growcabin_plant_mushroom_1_1",
+			"roomType": "grow",
+			"attrType": 3,
+			"target": "char_material",
+			"level": 1,
+			"outItem": "item_plant_mushroom_1_1",
+			"out": 1,
+			"progress": 6250000,
+			"seedItem": "item_plant_mushroom_seed_1_1",
+			"seedCount": 1
+		},
+		"growcabin_plant_mushroom_1_2": {
+			"id": "growcabin_plant_mushroom_1_2",
+			"roomType": "grow",
+			"attrType": 3,
+			"target": "char_material",
+			"level": 2,
+			"outItem": "item_plant_mushroom_1_2",
+			"out": 1,
+			"progress": 10000000,
+			"seedItem": "item_plant_mushroom_seed_1_2",
+			"seedCount": 1
+		},
+		"growcabin_plant_mushroom_2_1": {
+			"id": "growcabin_plant_mushroom_2_1",
+			"roomType": "grow",
+			"attrType": 3,
+			"target": "char_material",
+			"level": 3,
+			"outItem": "item_plant_mushroom_2_1",
+			"out": 1,
+			"progress": 45000000,
+			"seedItem": "item_plant_mushroom_seed_2_1",
+			"seedCount": 1
+		},
+		"growcabin_plant_mushroom_2_2": {
+			"id": "growcabin_plant_mushroom_2_2",
+			"roomType": "grow",
+			"attrType": 3,
+			"target": "char_material",
+			"level": 3,
+			"outItem": "item_plant_mushroom_2_2",
+			"out": 1,
+			"progress": 45000000,
+			"seedItem": "item_plant_mushroom_seed_2_2",
+			"seedCount": 1
+		},
+		"growcabin_plant_spcstone_1_2": {
+			"id": "growcabin_plant_spcstone_1_2",
+			"roomType": "grow",
+			"attrType": 5,
+			"target": "weapon_material",
+			"level": 2,
+			"outItem": "item_plant_spcstone_1_2",
+			"out": 1,
+			"progress": 10000000,
+			"seedItem": "item_plant_spcstone_seed_1_2",
+			"seedCount": 1
+		},
+		"growcabin_plant_spcstone_2_2": {
+			"id": "growcabin_plant_spcstone_2_2",
+			"roomType": "grow",
+			"attrType": 5,
+			"target": "weapon_material",
+			"level": 3,
+			"outItem": "item_plant_spcstone_2_2",
+			"out": 1,
+			"progress": 45000000,
+			"seedItem": "item_plant_spcstone_seed_2_2",
+			"seedCount": 1
+		}
+	}
+}
