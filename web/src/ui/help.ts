@@ -5,7 +5,8 @@ import { el } from "../dom";
 const GLOSSARY: { group: string; terms: [string, string][] }[] = [
   { group: "HEADER", terms: [
     ["HORIZON", "How many 1-hour slices to plan ahead — 24 = a full day. The solver schedules every hour up to this."],
-    ["TARGET", "The production goal label (e.g. weapon_exp). Recorded with the request; it does not change the result yet."],
+    ["TARGET", "The production goal (e.g. weapon_exp). Recorded with the request; COMPARE scores the roster per target."],
+    ["COMPARE", "Scores the current roster against every production target and ranks them by relative η (1.0 = no bonus). Click a row to set that TARGET."],
   ] },
   { group: "ROSTER", terms: [
     ["SKILL", "Which factory-skill line of the operator is active (its production effect)."],

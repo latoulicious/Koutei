@@ -3,12 +3,14 @@ import { load, save, DEFAULTS, type AppState } from "./state";
 import { operators } from "./seed";
 import { buildPayload, primarySkillLine, moodSkillLine } from "./payload";
 import { optimize } from "./api";
+import { fanOut } from "./fanout";
 import type { Ctx } from "./context";
 import { el } from "./dom";
 import { rosterColumn } from "./ui/roster";
 import { stationsColumn } from "./ui/stations";
 import { timelineColumn } from "./ui/timeline";
 import { helpDialog } from "./ui/help";
+import { compareDialog } from "./ui/compare";
 
 const state: AppState = load();
 const app = document.querySelector<HTMLDivElement>("#app")!;
@@ -119,6 +121,29 @@ function header(): HTMLElement {
     class: "w-36 bg-bg border border-border px-1 py-0.5 font-mono text-xs",
     onChange: (e: Event) => ctx.setTarget((e.target as HTMLInputElement).value),
   });
+  const compareBtn = el("button", {
+    class: "border border-border text-muted px-3 py-1 font-mono text-xs hover:border-accent hover:text-accent",
+    title: "Score the roster against every production target",
+    onClick: async () => {
+      compareBtn.textContent = "⊞ …";
+      (compareBtn as HTMLButtonElement).disabled = true;
+      try {
+        const dlg = compareDialog(await fanOut(state, operators), (t) => {
+          target.value = t;
+          ctx.setTarget(t);
+        });
+        document.body.append(dlg);
+        dlg.addEventListener("close", () => dlg.remove());
+        dlg.showModal();
+      } catch (e) {
+        state.error = (e as Error).message;
+        renderTimeline();
+      } finally {
+        compareBtn.textContent = "⊞ COMPARE";
+        (compareBtn as HTMLButtonElement).disabled = false;
+      }
+    },
+  }, ["⊞ COMPARE"]);
   const optimizeBtn = el("button", {
     class: "border border-accent text-accent px-3 py-1 font-mono text-xs hover:bg-accent hover:text-bg",
     onClick: () => ctx.solve(),
@@ -135,6 +160,7 @@ function header(): HTMLElement {
     labeledInline("HORIZON", horizon),
     labeledInline("TARGET", target),
     helpBtn,
+    compareBtn,
     optimizeBtn,
   ]);
 }
